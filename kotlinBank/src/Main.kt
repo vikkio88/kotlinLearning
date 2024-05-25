@@ -1,12 +1,13 @@
-import models.Currency
-import models.Money
+import app.App
+import sun.misc.Signal
+import kotlin.system.exitProcess
 
 fun main() {
-   val oneDollar = Money(100, Currency.US_DOLLAR)
-   val oneEuro = Money(100, Currency.EURO)
-   val onePound = Money(100, Currency.GB_POUND)
+   val app = App()
 
-    println(oneDollar)
-    println(oneEuro)
-    println(onePound)
+   Signal.handle(Signal("INT")){
+      println("\nReceived SIGINT, terminating app.")
+      exitProcess(0);
+   }
+   app.run()
 }
