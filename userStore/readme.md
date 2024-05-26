@@ -6,7 +6,7 @@ Small e ercise for a cli tool.
 - [ ] Money class
 - [ ] Money Math
 - [ ] App lifecycle with state
-- [ ] Catch Ctrl+C
+- [x] Catch Ctrl+C
 - [ ] User journeys
     - [ ] Login
     - [ ] Logout
