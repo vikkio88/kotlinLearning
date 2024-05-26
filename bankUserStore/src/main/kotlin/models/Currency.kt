@@ -1,4 +1,4 @@
-package models
+package bankUserStore.models
 
 enum class Currency(private val symbol: String) {
     US_DOLLAR("$"),

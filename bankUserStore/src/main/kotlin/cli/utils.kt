@@ -1,4 +1,4 @@
-package cli
+package bankUserStore.cli
 
 fun banner() {
     println("Kotlin User Store Project")

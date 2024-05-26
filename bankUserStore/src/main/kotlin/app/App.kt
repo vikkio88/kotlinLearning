@@ -1,8 +1,8 @@
-package app
+package bankUserStore.app
 
-import cli.banner
-import cli.cls
-import cli.menu
+import bankUserStore.cli.banner
+import bankUserStore.cli.cls
+import bankUserStore.cli.menu
 
 class App {
     fun run(){

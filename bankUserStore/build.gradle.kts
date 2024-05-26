@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.23"
 }
 
-group = "org.example"
+group = "com.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -11,6 +11,12 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "com.example.MainKt"
+    }
 }
 
 tasks.test {

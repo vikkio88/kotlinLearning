@@ -1,4 +1,4 @@
-package models
+package bankUserStore.models
 
 const val MULTIPLIER:Float = 100.0f
 
