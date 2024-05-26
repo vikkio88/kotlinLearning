@@ -1,4 +1,4 @@
-package bankUserStore.models
+package org.vikkio.models
 
 enum class Currency(private val symbol: String) {
     US_DOLLAR("$"),
@@ -6,7 +6,7 @@ enum class Currency(private val symbol: String) {
     EURO("€");
 
     override fun toString(): String {
-        return symbol;
+        return symbol
     }
 
 }

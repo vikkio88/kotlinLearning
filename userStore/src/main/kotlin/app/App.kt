@@ -1,11 +1,12 @@
-package bankUserStore.app
+package org.vikkio.app
 
-import bankUserStore.cli.banner
-import bankUserStore.cli.cls
-import bankUserStore.cli.menu
+import org.vikkio.cli.banner
+import org.vikkio.cli.cls
+import org.vikkio.cli.menu
 
 class App {
     fun run(){
+        cls()
         banner()
         var choice:String? = null
         while (choice!="q") {
