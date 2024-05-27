@@ -4,7 +4,7 @@ import org.vikkio.abstracts.Exercise
 
 class Collections1 : Exercise() {
     override val title: String
-        get() = "Collections 1"
+        get() = "Collections 1 - List"
 
     // You have a list of “green” numbers and a list of “red” numbers.
     // Complete the code to print how many numbers there are in total.

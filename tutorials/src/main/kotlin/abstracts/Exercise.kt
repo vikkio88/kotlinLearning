@@ -6,7 +6,7 @@ abstract class Exercise {
     fun run(){
         println("Running '$title'")
         body()
-        println("\nfinished running: '$title'")
+        println("finished running: '$title'\n")
     }
     protected abstract fun body()
 }

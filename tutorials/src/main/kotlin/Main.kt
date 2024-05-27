@@ -1,6 +1,8 @@
 package org.vikkio
 
 import org.vikkio.exercises.Collections1
+import org.vikkio.exercises.Collections2
+import org.vikkio.exercises.Collections3
 import org.vikkio.exercises.Types
 
 /**
@@ -9,4 +11,6 @@ import org.vikkio.exercises.Types
 fun main() {
     Types().run()
     Collections1().run()
+    Collections2().run()
+    Collections3().run()
 }
