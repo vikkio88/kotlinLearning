@@ -12,4 +12,9 @@ class MoneyTest {
     fun testToString() {
         assertEquals("10.00$", "${Money(1000, Currency.US_DOLLAR)}")
     }
+
+    @Test
+    fun testOperations(){
+        assertEquals("25.55$", "${Money(1055, Currency.US_DOLLAR) + Money(1500, Currency.US_DOLLAR)}")
+    }
 }
