@@ -10,9 +10,39 @@ class Money(private val value: Int, private val currency: Currency){
 
     operator fun plus(other: Money): Money {
         if (other.currency != this.currency){
-            throw Exception("Invalid Operation")
+            throw UnsupportedOperationException("Currencies not compatible")
         }
 
         return Money(this.value + other.value, this.currency)
     }
+
+    operator fun minus(other: Money): Money {
+        if (other.currency != this.currency){
+            throw UnsupportedOperationException("Currencies not compatible")
+        }
+
+        if(other.value > this.value){
+            throw  UnsupportedOperationException("Cannot subtract more than the value")
+        }
+
+        return Money(this.value - other.value, this.currency)
+    }
+
+    fun adjustPercentage(i: Float) :Money {
+        val newValue = value + (value * i)
+        return Money(newValue.toInt(), currency)
+    }
+
+    //<editor-fold desc="Comparable">
+    override fun equals(other: Any?): Boolean {
+        return when(other){
+            is Money -> other.value == this.value && other.currency == this.currency
+            else -> false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return value + currency.hashCode()
+    }
+    //</editor-fold>
 }
