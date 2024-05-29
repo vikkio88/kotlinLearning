@@ -3,7 +3,8 @@ package org.vikkio
 import org.vikkio.exercises.*
 
 /**
- * Solutions to problems in Kotlin tour: https://kotlinlang.org/docs/kotlin-tour-hello-world.html
+ * Solutions to problems in Kotlin tour:
+ * https://kotlinlang.org/docs/kotlin-tour-hello-world.html
  */
 fun main() {
     Types().run()
@@ -16,4 +17,7 @@ fun main() {
     ControlFlows2().run()
     ControlFlows3().run()
     ControlFlows4().run()
+
+    Lambdas().run()
+    Lambdas2().run()
 }
