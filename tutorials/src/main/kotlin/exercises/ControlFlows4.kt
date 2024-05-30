@@ -1,11 +1,11 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 import kotlin.system.measureNanoTime
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-class ControlFlows4 : Exercise() {
+class ControlFlows4 : Exercise {
     override val title: String
         get() = "Control Flows 4 - Words with L"
 

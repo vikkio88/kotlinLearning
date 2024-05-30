@@ -1,8 +1,8 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 
-class Lambdas:Exercise() {
+class Lambdas : Exercise {
     override val title: String
         get() = "Functions - Lambdas - 1"
 

@@ -1,10 +1,10 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 
 const val MAX_PIZZA_SLICES = 8
 
-class ControlFlows2 : Exercise() {
+class ControlFlows2 : Exercise {
     override val title: String
         get() = "Control Flows 2"
 

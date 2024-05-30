@@ -1,8 +1,8 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 
-class Collections3() : Exercise() {
+class Collections3 : Exercise {
     override val title: String
         get() = "Collection 3 - Maps"
 

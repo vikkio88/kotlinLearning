@@ -20,4 +20,9 @@ fun main() {
 
     Lambdas().run()
     Lambdas2().run()
+
+    Classes1().run()
+    Classes2().run()
+
+    Nullability().run()
 }

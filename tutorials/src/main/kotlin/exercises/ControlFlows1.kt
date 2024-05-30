@@ -1,12 +1,12 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 
 enum class Buttons {
     A, B, X, Y
 }
 
-class ControlFlows1 : Exercise() {
+class ControlFlows1 : Exercise {
     override val title: String
         get() = "Control Flows 1"
 

@@ -1,8 +1,8 @@
 package org.vikkio.exercises
 
-import org.vikkio.abstracts.Exercise
+import org.vikkio.interfaces.Exercise
 
-class ControlFlows3 : Exercise() {
+class ControlFlows3 : Exercise {
     override val title: String
         get() = "Control Flows 3 - FizzBuzz"
 
