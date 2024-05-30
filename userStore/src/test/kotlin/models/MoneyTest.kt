@@ -11,6 +11,11 @@ import java.lang.UnsupportedOperationException
 class MoneyTest {
 
     @Test
+    fun testAttributes(){
+        assertEquals(10.0f, (Money(1000, Currency.EURO)).amount)
+    }
+
+    @Test
     fun testToString() {
         assertEquals("10.00$", "${Money(1000, Currency.US_DOLLAR)}")
     }

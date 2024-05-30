@@ -1,15 +1,24 @@
 package org.vikkio.models
 
-const val MULTIPLIER:Float = 100.0f
+import kotlinx.serialization.*
+import kotlinx.serialization.json.Json
 
+const val MULTIPLIER: Float = 100.0f
 
-class Money(private val value: Int, private val currency: Currency){
+@Serializable
+data class Money(val value: Int, val currency: Currency) {
+    val amount: Float get() = value / MULTIPLIER
+
     override fun toString(): String {
-        return "${"%.2f".format(value / MULTIPLIER)}$currency"
+        return "${"%.2f".format(amount)}$currency"
+    }
+
+    fun toJson():String {
+        return Json.encodeToString(this)
     }
 
     operator fun plus(other: Money): Money {
-        if (other.currency != this.currency){
+        if (other.currency != this.currency) {
             throw UnsupportedOperationException("Currencies not compatible")
         }
 
@@ -17,25 +26,25 @@ class Money(private val value: Int, private val currency: Currency){
     }
 
     operator fun minus(other: Money): Money {
-        if (other.currency != this.currency){
+        if (other.currency != this.currency) {
             throw UnsupportedOperationException("Currencies not compatible")
         }
 
-        if(other.value > this.value){
-            throw  UnsupportedOperationException("Cannot subtract more than the value")
+        if (other.value > this.value) {
+            throw UnsupportedOperationException("Cannot subtract more than the value")
         }
 
         return Money(this.value - other.value, this.currency)
     }
 
-    fun adjustPercentage(i: Float) :Money {
+    fun adjustPercentage(i: Float): Money {
         val newValue = value + (value * i)
         return Money(newValue.toInt(), currency)
     }
 
     //<editor-fold desc="Comparable">
     override fun equals(other: Any?): Boolean {
-        return when(other){
+        return when (other) {
             is Money -> other.value == this.value && other.currency == this.currency
             else -> false
         }
