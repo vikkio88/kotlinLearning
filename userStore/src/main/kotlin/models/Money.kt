@@ -1,20 +1,15 @@
 package org.vikkio.models
 
 import kotlinx.serialization.*
-import kotlinx.serialization.json.Json
 
 const val MULTIPLIER: Float = 100.0f
 
 @Serializable
-data class Money(val value: Int, val currency: Currency) {
+data class Money(val value: Int, val currency: Currency) : IJsonable {
     val amount: Float get() = value / MULTIPLIER
 
     override fun toString(): String {
         return "${"%.2f".format(amount)}$currency"
-    }
-
-    fun toJson():String {
-        return Json.encodeToString(this)
     }
 
     operator fun plus(other: Money): Money {

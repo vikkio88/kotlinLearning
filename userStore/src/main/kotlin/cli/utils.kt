@@ -4,10 +4,31 @@ fun banner() {
     println("\nKotlin User Store Project\n")
 }
 
-fun menu() {
-    println("\nMenu\n 1. Create new User.\n 2. Show Users.\n\n q. Quit")
+fun input(prompt: String = "> "): String? {
+    print(prompt)
+    return readlnOrNull()
 }
 
- fun cls() {
+fun enterToContinue() {
+    input("\n[Enter] to continue..\n")
+}
+
+fun inputNumber(prompt: String = "(num)> "): Int? {
+    while (true) {
+        val num = input(prompt)
+        if (num == "quit") {
+            return null
+        }
+
+        try {
+            return num?.toInt()
+        } catch (e: Exception) {
+            println("'$num' is not a number, try again.")
+            println("type [quit] to set 0")
+        }
+    }
+}
+
+fun cls() {
     print("\u001b[H\u001b[2J")
 }
