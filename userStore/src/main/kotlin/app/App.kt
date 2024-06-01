@@ -17,7 +17,7 @@ val defaultCleanup = {
 }
 
 class App(private val cleanup: () -> Unit = defaultCleanup) {
-    val db: MutableCollection<User> = mutableListOf()
+    private val db: MutableCollection<User> = mutableListOf()
 
     fun run() {
         setup()

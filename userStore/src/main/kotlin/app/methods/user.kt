@@ -11,6 +11,7 @@ val addUser = { users: MutableCollection<User> ->
     val money = inputNumber("Balance in $: ") ?: 0
 
     val user = User(name, Money(money, Currency.US_DOLLAR))
+    println(user.toJson())
     users.add(user)
 }
 

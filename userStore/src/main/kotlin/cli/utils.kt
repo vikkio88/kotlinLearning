@@ -10,7 +10,7 @@ fun input(prompt: String = "> "): String? {
 }
 
 fun enterToContinue() {
-    input("\n[Enter] to continue..\n")
+    input("\n\t[Enter] to continue...\n")
 }
 
 fun inputNumber(prompt: String = "(num)> "): Int? {

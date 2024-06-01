@@ -5,7 +5,7 @@ import kotlinx.serialization.*
 const val MULTIPLIER: Float = 100.0f
 
 @Serializable
-data class Money(val value: Int, val currency: Currency) : IJsonable {
+data class Money(val value: Int, val currency: Currency) : Jsonable() {
     val amount: Float get() = value / MULTIPLIER
 
     override fun toString(): String {
