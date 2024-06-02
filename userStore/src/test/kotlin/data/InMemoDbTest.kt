@@ -18,4 +18,20 @@ class InMemoDbTest {
         db.addUser(User("marione", Money(2000, Currency.EURO)))
         assertEquals(2, db.getUsers().count())
     }
+
+    @Test
+    fun passwordJourney() {
+        val db = InMemoDb()
+        val user = User("Mariano Marione", Money(1000, Currency.EURO))
+        db.addUser(user)
+
+        assertFalse(db.login(user.id, "PASSWORD"))
+        db.setUserPassword(user.id, "PASSWORD")
+        assertTrue(db.login(user.id, "PASSWORD"))
+        assertFalse(db.setUserPassword(user.id, "PASSWORD1", "WRONG"))
+        assertFalse(db.login(user.id, "WRONG"))
+        assertTrue(db.setUserPassword(user.id, "PASSWORD1", "PASSWORD"))
+        assertFalse(db.login(user.id, "PASSWORD"))
+        assertTrue(db.login(user.id, "PASSWORD1"))
+    }
 }

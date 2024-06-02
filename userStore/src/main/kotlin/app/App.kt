@@ -33,7 +33,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
                 cls()
             }
             if ((choice != null && selectedMethod == Methods.NO_METHOD)) {
-                println("\nYou typed: '$choice', no method with that, Try again...\n")
+                println("\n${if (choice.isEmpty()) "You did not type anything." else "You typed: '$choice'"}, no method with that, Try again...\n")
             }
 
 
