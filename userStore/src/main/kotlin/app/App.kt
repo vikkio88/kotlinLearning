@@ -8,6 +8,8 @@ import org.vikkio.cli.banner
 import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
+import org.vikkio.data.IDb
+import org.vikkio.data.InMemoDb
 import org.vikkio.models.User
 import sun.misc.Signal
 import kotlin.system.exitProcess
@@ -17,7 +19,7 @@ val defaultCleanup = {
 }
 
 class App(private val cleanup: () -> Unit = defaultCleanup) {
-    private val db: MutableCollection<User> = mutableListOf()
+    private val db: IDb = InMemoDb()
 
     fun run() {
         setup()

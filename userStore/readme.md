@@ -2,10 +2,10 @@
 
 Small e ercise for a cli tool.
 
-- [ ] User class
-- [ ] Money class
-- [ ] Money Math
-- [ ] App lifecycle with state
+- [x] User class
+- [x] Money class
+- [x] Money Math
+- [x] App lifecycle with state
 - [x] Catch Ctrl+C
 - [ ] User journeys
     - [ ] Login
@@ -26,5 +26,5 @@ Small e ercise for a cli tool.
 - [ ] Allow users to have many different bank accounts
     - [ ] move money between accounts
 - [ ] Allow different currency money e change
-- [ ] Simulate Currency E change fluctuation
+- [ ] Simulate Currency Exchange fluctuation
 - [ ] Record Transaction history

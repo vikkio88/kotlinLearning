@@ -5,18 +5,19 @@ import org.vikkio.cli.inputNumber
 import org.vikkio.models.Currency
 import org.vikkio.models.Money
 import org.vikkio.models.User
+import org.vikkio.data.IDb
 
-val addUser = { users: MutableCollection<User> ->
+val addUser = { db:IDb ->
     val name = input("Full name: ") ?: "Unknown"
     val money = inputNumber("Balance in $: ") ?: 0
 
     val user = User(name, Money(money, Currency.US_DOLLAR))
     println(user.toJson())
-    users.add(user)
+    db.addUser(user)
 }
 
-val listUsers = { users: MutableCollection<User> ->
-    users.forEach {
+val listUsers = { db: IDb ->
+    db.getUsers().forEach {
         println(it.fullName)
     }
 }

@@ -1,6 +1,8 @@
 package org.vikkio.app.methods
 
-val methodMap = mapOf(
+import org.vikkio.data.IDb
+
+val methodMap = mapOf<Methods, (IDb) -> Unit>(
     Methods.ADD_USER to addUser,
     Methods.LIST_USERS to listUsers
 )
