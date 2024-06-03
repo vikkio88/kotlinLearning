@@ -37,6 +37,11 @@ data class Money(val value: Int, val currency: Currency) : Jsonable() {
         return Money(newValue.toInt(), currency)
     }
 
+    fun convert(currency: Currency): Money {
+        val newValue = value * this.currency.conversionRate / currency.conversionRate
+        return Money(newValue.toInt(), currency)
+    }
+
     //<editor-fold desc="Comparable">
     override fun equals(other: Any?): Boolean {
         return when (other) {

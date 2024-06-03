@@ -1,12 +1,10 @@
 package org.vikkio.models
 
-enum class Currency(private val symbol: String) {
-    US_DOLLAR("$"),
-    GB_POUND("£"),
-    EURO("€");
+enum class Currency(private val symbol: String, val conversionRate: Float) {
+    EURO("€", 1.0f),
+    US_DOLLAR("$", .92f),
+    GB_POUND("£", 1.17f);
 
-    override fun toString(): String {
-        return symbol
-    }
-
+    override fun toString() = symbol
+    fun getName() = name.lowercase()
 }
