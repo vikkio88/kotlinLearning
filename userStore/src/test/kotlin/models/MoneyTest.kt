@@ -56,5 +56,7 @@ class MoneyTest {
 
         val onePound = Money(100, Currency.GB_POUND)
         assertEquals("1.27$", onePound.convert(Currency.US_DOLLAR).toString())
+
+        assertEquals("0.78£", oneDollar.convert(Currency.GB_POUND).toString())
     }
 }
