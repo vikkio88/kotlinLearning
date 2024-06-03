@@ -21,10 +21,10 @@ Small e ercise for a cli tool.
 - [ ] Admin journey
     - [ ] Manage Users (create/delete/reset password)
     - [ ] Create new account for users
-- [ ] User Journey - Add Comple  money with fractional unit to movements
+- [ ] User Journey - Deposit/Withdraw money with fractional unit to movements
 - [ ] User Journey - Move Money between users
 - [ ] Allow users to have many different bank accounts
     - [ ] move money between accounts
-- [ ] Allow different currency money e change
+- [x] Allow different currency money e change
 - [ ] Simulate Currency Exchange fluctuation
 - [ ] Record Transaction history
