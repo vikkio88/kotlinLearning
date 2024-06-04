@@ -1,29 +1,26 @@
 package org.vikkio.app.methods
 
-import org.vikkio.cli.getFromList
+import org.vikkio.app.AppState
+import org.vikkio.app.Context
 import org.vikkio.cli.input
-import org.vikkio.cli.inputNumber
-import org.vikkio.models.Currency
-import org.vikkio.models.Money
-import org.vikkio.models.User
-import org.vikkio.data.IDb
+import org.vikkio.models.enums.UserType
 
-val addUser = { db: IDb ->
-    val name = input("Full name: ") ?: "Unknown"
-    val money = inputNumber("Balance in $: ") ?: 0
-
-    val user = User(name, Money(money, Currency.US_DOLLAR))
-    println(user.toJson())
-    db.addUser(user)
-}
-
-val listUsers = { db: IDb ->
-    db.getUsers().forEach {
-        println(it.fullName)
+val login = { ctx: Context ->
+    val username = input("Username: ") ?: ""
+    val password = input("Password: ") ?: ""
+    val user = ctx.db.login(username, password)
+    if (user != null
+    ) {
+        when (user.role) {
+            UserType.USER -> ctx.changeState(AppState.UserLoggedIn)
+            UserType.ADMIN -> ctx.changeState(AppState.AdminLoggedIn)
+        }
+    } else {
+        println("Invalid login, try again.")
     }
 }
 
-val adminChangePassword = { db: IDb ->
-    val user = getFromList(db.getUsers().toList())
-    println("selected ${user?.toJson() ?: "NO USER"}")
+val logout = { ctx: Context ->
+    println("Logging you out.")
+    ctx.changeState(AppState.LoggedOut)
 }
