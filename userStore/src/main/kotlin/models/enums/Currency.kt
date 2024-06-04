@@ -1,4 +1,4 @@
-package org.vikkio.models
+package org.vikkio.models.enums
 
 enum class Currency(private val symbol: String, val conversionRate: Float) {
     EURO("€", 1.0f),
