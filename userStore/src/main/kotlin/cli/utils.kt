@@ -9,14 +9,14 @@ fun input(prompt: String = "> "): String? {
     return readlnOrNull()
 }
 
-fun <T> getFromList(list: List<T>): T? {
+fun <T> getFromList(list: List<T>): Pair<Int, T?> {
     val count = list.count()
     if (count < 1) {
-        return null
+        return Pair(-1, null)
     }
     if (count == 1) {
         println("only 1 item to select, selected")
-        return list[0]
+        return Pair(0, list[0])
     }
 
     list.forEachIndexed { i: Int, item: T ->
@@ -28,10 +28,11 @@ fun <T> getFromList(list: List<T>): T? {
         if (num != null) {
             println("you typed '$num' that is not a valid selection.")
         }
-        num = inputNumber("[1-${list.count()}] > ")
+        // Lists will be 1-indexed so fallback is 1
+        num = inputNumber("[1-${list.count()}] > ", 1)
     }
 
-    return list[num - 1]
+    return Pair(num - 1, list[num - 1])
 
 }
 
@@ -39,18 +40,18 @@ fun enterToContinue() {
     input("\n\t[Enter] to continue...\n")
 }
 
-fun inputNumber(prompt: String = "(num)> "): Int? {
+fun inputNumber(prompt: String = "(num)> ", fallback: Int = 0): Int {
     while (true) {
         val num = input(prompt)
         if (num == "quit") {
-            return null
+            return fallback
         }
 
         try {
-            return num?.toInt()
+            return num?.toInt() ?: 0
         } catch (e: Exception) {
             println("'$num' is not a number, try again.")
-            println("type [quit] to set 0")
+            println("type [quit] to return '$fallback'")
         }
     }
 }
