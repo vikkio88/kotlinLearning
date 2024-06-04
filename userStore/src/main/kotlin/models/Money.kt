@@ -1,11 +1,12 @@
 package org.vikkio.models
 
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import org.vikkio.models.enums.Currency
 
 const val MULTIPLIER: Float = 100.0f
 
 @Serializable
-data class Money(val value: Int, val currency: Currency) : Jsonable() {
+data class Money(val value: Int, val currency: Currency) {
     val amount: Float get() = value / MULTIPLIER
 
     override fun toString(): String {

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
-import org.vikkio.models.Currency
+import org.vikkio.models.enums.Currency
 import org.vikkio.models.Money
 import java.lang.UnsupportedOperationException
 
