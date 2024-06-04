@@ -1,16 +1,12 @@
 package org.vikkio.app
 
-import org.vikkio.app.methods.Methods
-import org.vikkio.app.methods.menuMethodMap
-import org.vikkio.app.methods.methodLabels
-import org.vikkio.app.methods.methodMap
+import org.vikkio.app.methods.*
 import org.vikkio.cli.banner
 import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
-import org.vikkio.data.IDb
 import org.vikkio.data.InMemoDb
-import org.vikkio.models.User
+import org.vikkio.models.UserFactory
 import sun.misc.Signal
 import kotlin.system.exitProcess
 
@@ -19,10 +15,10 @@ val defaultCleanup = {
 }
 
 class App(private val cleanup: () -> Unit = defaultCleanup) {
-    private val db: IDb = InMemoDb()
+    private var context: Context = Context(InMemoDb())
 
     fun run() {
-        setup()
+        boot()
 
         cls()
         banner()
@@ -32,6 +28,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             if (choice != null) {
                 cls()
             }
+            state()
             if ((choice != null && selectedMethod == Methods.NO_METHOD)) {
                 println("\n${if (choice.isEmpty()) "You did not type anything." else "You typed: '$choice'"}, no method with that, Try again...\n")
             }
@@ -43,7 +40,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             selectedMethod = parseChoice(choice)
 
             if (selectedMethod in methodMap) {
-                methodMap[selectedMethod]?.let { it(db) }
+                methodMap[selectedMethod]?.let { it(context) }
                 enterToContinue()
             }
 
@@ -53,8 +50,22 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
         cleanup()
     }
 
+    private fun state() {
+        println(
+            when (context.getState()) {
+                AppState.LoggedOut -> ""
+                AppState.AdminLoggedIn -> "Logged in as Admin."
+                AppState.UserLoggedIn -> "Logged in as User."
+            }
+        )
+    }
+
+    private fun getMenu(): Map<Array<String>, Methods> {
+        return stateToMethods[context.getState()] ?: loginMenuMap
+    }
+
     private fun menu() {
-        for (e in menuMethodMap) {
+        for (e in getMenu()) {
             val key = e.key[0]
             val method = e.value
 
@@ -63,7 +74,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
     }
 
     private fun parseChoice(choice: String?): Methods {
-        for (e in menuMethodMap) {
+        for (e in getMenu()) {
             if (choice in e.key) {
                 return e.value
             }
@@ -78,5 +89,12 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             cleanup()
             exitProcess(0)
         }
+    }
+
+    private fun boot() {
+        setup()
+        val admin = UserFactory.makeAdmin("admin")
+        context.db.addUser(admin)
+        context.db.resetUserPassword(admin.id, "password")
     }
 }
