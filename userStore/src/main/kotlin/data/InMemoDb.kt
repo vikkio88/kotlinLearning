@@ -4,10 +4,18 @@ import org.vikkio.models.User
 
 class InMemoDb : IDb {
     private val users = mutableMapOf<String, User>()
+    private val usernames = mutableMapOf<String, String>()
     private val passwords = mutableMapOf<String, String>()
 
-    override fun addUser(user: User) {
+    override fun addUser(user: User): Boolean {
+        if (user.username in usernames) {
+            return false
+        }
+
         users[user.id] = user
+        usernames[user.username] = user.id
+
+        return true
     }
 
     override fun getUsers(): Iterable<User> {
@@ -18,9 +26,14 @@ class InMemoDb : IDb {
         return users[id]
     }
 
-    override fun setUserPassword(userId: String, newPassword: String, oldPassword: String?): Boolean {
+    override fun resetUserPassword(userId: String, newPassword: String): Boolean {
+        passwords[userId] = newPassword
+        return true
+    }
+
+    override fun setUserPassword(userId: String, newPassword: String, oldPassword: String): Boolean {
         val oldPwd = passwords[userId]
-        if (oldPwd != null && oldPwd != oldPassword) {
+        if (oldPwd != oldPassword) {
             return false
         }
 
@@ -29,8 +42,11 @@ class InMemoDb : IDb {
         return true
     }
 
-    override fun login(userId: String, password: String): Boolean {
-        val pwd = passwords[userId]
-        return pwd == password
+    override fun login(username: String, password: String): User? {
+        val userId = usernames[username] ?: return null
+
+        val pwd = passwords[userId] ?: return null
+
+        return if (pwd == password) users[userId] else null
     }
 }
