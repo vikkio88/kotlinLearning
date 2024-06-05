@@ -6,6 +6,7 @@ import org.vikkio.cli.input
 import org.vikkio.cli.inputNumber
 import org.vikkio.models.Money
 import org.vikkio.models.User
+import org.vikkio.models.UserFactory
 import org.vikkio.models.enums.Currency
 import kotlin.random.Random
 
@@ -15,7 +16,7 @@ val addUser = { ctx: Context ->
     val name = input("Full name: ") ?: "Unknown"
     val money = inputNumber("Balance in $: ")
 
-    var user = User(name, Money(money, Currency.US_DOLLAR))
+    var user = UserFactory.makeUser(name, Money(money, Currency.US_DOLLAR))
     var added = ctx.db.addUser(user)
     var tries = 0
     while (!added && tries < MAX_RETRY) {

@@ -1,9 +1,8 @@
 package org.vikkio.app.methods
 
 import org.vikkio.app.AppState
-import org.vikkio.app.Context
 
-val methodMap = mapOf<Methods, (Context) -> Unit>(
+val methodMap = mapOf(
     Methods.LOGIN to login,
     Methods.LOGOUT to logout,
 

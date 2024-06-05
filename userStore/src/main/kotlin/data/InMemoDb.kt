@@ -42,7 +42,7 @@ class InMemoDb : IDb {
         return true
     }
 
-    override fun login(username: String, password: String): User? {
+    override fun tryLogin(username: String, password: String): User? {
         val userId = usernames[username] ?: return null
 
         val pwd = passwords[userId] ?: return null

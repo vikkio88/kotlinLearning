@@ -22,16 +22,16 @@ class InMemoDbTest {
         val user = User("Mariano Marione")
         db.addUser(user)
 
-        assertNull(db.login(user.id, "PASSWORD"))
+        assertNull(db.tryLogin(user.id, "PASSWORD"))
         db.resetUserPassword(user.id, "PASSWORD")
-        assertNotNull(db.login(user.id, "PASSWORD"))
+        assertNotNull(db.tryLogin(user.id, "PASSWORD"))
         assertFalse(db.setUserPassword(user.id, "PASSWORD1", "WRONG"))
-        assertNull(db.login(user.id, "WRONG"))
+        assertNull(db.tryLogin(user.id, "WRONG"))
         assertTrue(db.setUserPassword(user.id, "PASSWORD1", "PASSWORD"))
-        assertNull(db.login(user.id, "PASSWORD"))
-        assertNotNull(db.login(user.id, "PASSWORD1"))
+        assertNull(db.tryLogin(user.id, "PASSWORD"))
+        assertNotNull(db.tryLogin(user.id, "PASSWORD1"))
         db.resetUserPassword(user.id, "MARIOPASSWORD")
-        assertNull(db.login(user.id, "PASSWORD1"))
-        assertNotNull(db.login(user.id, "MARIOPASSWORD"))
+        assertNull(db.tryLogin(user.id, "PASSWORD1"))
+        assertNotNull(db.tryLogin(user.id, "MARIOPASSWORD"))
     }
 }

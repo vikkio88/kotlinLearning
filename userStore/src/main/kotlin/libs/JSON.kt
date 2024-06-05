@@ -1,4 +1,4 @@
-package org.vikkio.models
+package org.vikkio.libs
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.ClassDiscriminatorMode

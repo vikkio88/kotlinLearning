@@ -2,7 +2,7 @@ package models
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.vikkio.models.JSON
+import org.vikkio.libs.JSON
 import org.vikkio.models.Money
 import org.vikkio.models.User
 import org.vikkio.models.UserFactory

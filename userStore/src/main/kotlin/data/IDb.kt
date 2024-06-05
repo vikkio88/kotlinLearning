@@ -9,5 +9,5 @@ interface IDb {
 
     fun resetUserPassword(userId: String, newPassword: String): Boolean
     fun setUserPassword(userId: String, newPassword: String, oldPassword: String): Boolean
-    fun login(username: String, password: String): User?
+    fun tryLogin(username: String, password: String): User?
 }

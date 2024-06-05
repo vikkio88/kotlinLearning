@@ -51,11 +51,12 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
     }
 
     private fun state() {
+        val user = context.getLoggedInUser()
         println(
             when (context.getState()) {
                 AppState.LoggedOut -> ""
-                AppState.AdminLoggedIn -> "Logged in as Admin."
-                AppState.UserLoggedIn -> "Logged in as User."
+                AppState.AdminLoggedIn -> "[Admin] ${user?.username}."
+                AppState.UserLoggedIn -> "Logged in as ${user?.username}.\nBalance: ${user?.wallet ?: "*No Wallet*"}"
             }
         )
     }

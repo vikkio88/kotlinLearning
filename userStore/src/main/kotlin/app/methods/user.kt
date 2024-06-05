@@ -3,18 +3,15 @@ package org.vikkio.app.methods
 import org.vikkio.app.AppState
 import org.vikkio.app.Context
 import org.vikkio.cli.input
-import org.vikkio.models.enums.UserType
 
 val login = { ctx: Context ->
     val username = input("Username: ") ?: ""
     val password = input("Password: ") ?: ""
-    val user = ctx.db.login(username, password)
+    val user = ctx.db.tryLogin(username, password)
     if (user != null
     ) {
-        when (user.role) {
-            UserType.USER -> ctx.changeState(AppState.UserLoggedIn)
-            UserType.ADMIN -> ctx.changeState(AppState.AdminLoggedIn)
-        }
+        println("Login successful...")
+        ctx.login(user)
     } else {
         println("Invalid login, try again.")
     }
