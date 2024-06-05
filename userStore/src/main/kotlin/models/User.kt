@@ -2,7 +2,7 @@ package org.vikkio.models
 
 import kotlinx.serialization.Serializable
 import org.vikkio.models.enums.UserType
-import ulid.ULID
+import java.util.UUID
 
 @Serializable
 data class User(
@@ -18,7 +18,7 @@ object UserFactory {
         return User(
             fullName = fullName.trim(),
             wallet = wallet,
-            id = ULID.nextULID().toString(),
+            id = UUID.randomUUID().toString(),
             username = fullName.lowercase().split(" ").joinToString(".").trim('.')
         )
     }
