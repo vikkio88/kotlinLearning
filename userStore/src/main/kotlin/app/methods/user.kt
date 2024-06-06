@@ -4,6 +4,8 @@ import org.vikkio.app.AppState
 import org.vikkio.app.Context
 import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
+import org.vikkio.cli.inputNumber
+import org.vikkio.models.Money
 
 val login = { ctx: Context ->
     val username = input("Username: ") ?: ""
@@ -21,4 +23,22 @@ val login = { ctx: Context ->
 val logout = { ctx: Context ->
     println("Logging you out.")
     ctx.changeState(AppState.LoggedOut)
+}
+
+val withdraw = withdrawLambda@ { ctx: Context ->
+    println("Withdrawing")
+    val wallet = ctx.getLoggedInUser()?.wallet
+    if (wallet != null) {
+        println("Current balance $wallet")
+    }
+
+    if (wallet == null || wallet.value <= 0) {
+        println("Not enough funds to withdraw")
+        return@withdrawLambda
+    }
+
+    val amount = inputNumber("amount (${wallet.currency}) > ")
+    println("Amount: ${Money(amount, wallet.currency)}")
+
+    //TODO Get wallet, withdraw and Persist
 }

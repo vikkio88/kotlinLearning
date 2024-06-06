@@ -9,6 +9,8 @@ val methodMap = mapOf(
     Methods.ADD_USER to addUser,
     Methods.LIST_USERS to listUsers,
     Methods.ADMIN_CHANGE_PASSWORD to adminChangePassword,
+
+    Methods.WITHDRAW to withdraw
 )
 
 val adminMenuMethodMap = mapOf(
@@ -20,6 +22,7 @@ val adminMenuMethodMap = mapOf(
 )
 
 val userMenuMethodMap = mapOf(
+    arrayOf("w","withdraw") to Methods.WITHDRAW,
     arrayOf("lo", "logout") to Methods.LOGOUT,
     arrayOf("q", "quit", "exit") to Methods.QUIT,
 )
@@ -32,10 +35,14 @@ val loginMenuMap = mapOf(
 val methodLabels = mapOf(
     Methods.LOGIN to "Login",
     Methods.LOGOUT to "Logout",
-    Methods.ADD_USER to "[Admin] Add a user",
-    Methods.LIST_USERS to "[Admin] List all users",
-    Methods.ADMIN_CHANGE_PASSWORD to "[Admin] Change password",
-    Methods.QUIT to "Quit app"
+
+    Methods.ADD_USER to "Add a user",
+    Methods.LIST_USERS to "List all users",
+    Methods.ADMIN_CHANGE_PASSWORD to "Change password",
+
+    Methods.WITHDRAW to "Withdraw",
+
+    Methods.QUIT to "Quit app",
 )
 
 val stateToMethods = mapOf(

@@ -9,7 +9,10 @@ enum class Methods {
     LIST_USERS,
     ADMIN_CHANGE_PASSWORD,
 
+    // Users
+    WITHDRAW,
+
     QUIT,
 
-    NO_METHOD
+    NO_METHOD,
 }
