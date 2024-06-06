@@ -1,5 +1,6 @@
 package org.vikkio.data
 
+import org.vikkio.models.Money
 import org.vikkio.models.User
 
 class InMemoDb : IDb {
@@ -24,6 +25,15 @@ class InMemoDb : IDb {
 
     override fun getUserById(id: String): User? {
         return users[id]
+    }
+
+    override fun tryUpdateWallet(userId: String, wallet: Money): Boolean {
+        val user = getUserById(userId) ?: return false
+
+        //TODO check if is possible to do wallet operation
+        val newUser = user.copy(wallet = wallet)
+        users[userId] = newUser
+        return true
     }
 
     override fun resetUserPassword(userId: String, newPassword: String): Boolean {

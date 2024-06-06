@@ -25,7 +25,7 @@ val logout = { ctx: Context ->
     ctx.changeState(AppState.LoggedOut)
 }
 
-val withdraw = withdrawLambda@ { ctx: Context ->
+val withdraw = withdrawLambda@{ ctx: Context ->
     println("Withdrawing")
     val wallet = ctx.getLoggedInUser()?.wallet
     if (wallet != null) {
@@ -38,7 +38,10 @@ val withdraw = withdrawLambda@ { ctx: Context ->
     }
 
     val amount = inputNumber("amount (${wallet.currency}) > ")
-    println("Amount: ${Money(amount, wallet.currency)}")
-
-    //TODO Get wallet, withdraw and Persist
+    val withAmount = Money(amount, wallet.currency)
+    println("Amount: $withAmount")
+    val userId = ctx.getLoggedInUser()!!.id
+    val res = ctx.db.tryUpdateWallet(userId, wallet - withAmount)
+    if (res) println("Withdrawn successfully.") else println("Withdrawal failed.")
+    ctx.updateUser(ctx.db.getUserById(userId))
 }
