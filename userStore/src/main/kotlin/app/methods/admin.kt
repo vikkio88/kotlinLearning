@@ -2,6 +2,7 @@ package org.vikkio.app.methods
 
 import org.vikkio.app.Context
 import org.vikkio.cli.getFromList
+import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
 import org.vikkio.cli.inputNumber
 import org.vikkio.models.Money
@@ -47,7 +48,7 @@ val adminChangePassword = { ctx: Context ->
 
     } else if (user is User) {
         println("selected user [${index + 1}]: ${user.fullName}")
-        val password = input("New Password > ")
+        val password = hiddenInput("New password: ")
 
         if (password?.isEmpty() == true) println("No password specified, using default 'PASSWORD'.")
         val res = ctx.db.resetUserPassword(user.id, password ?: "PASSWORD")

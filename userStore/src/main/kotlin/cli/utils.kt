@@ -1,5 +1,7 @@
 package org.vikkio.cli
 
+import java.io.Console
+
 fun banner() {
     println("\nKotlin User Store Project\n")
 }
@@ -7,6 +9,15 @@ fun banner() {
 fun input(prompt: String = "> "): String? {
     print(prompt)
     return readlnOrNull()
+}
+
+fun hiddenInput(prompt: String = "> "): String? {
+    val console: Console? = System.console()
+    if (console != null) {
+        val pass = console.readPassword("(hidden) $prompt")
+        return String(pass)
+    }
+    return input(prompt)
 }
 
 fun <T> getFromList(list: List<T>): Pair<Int, T?> {

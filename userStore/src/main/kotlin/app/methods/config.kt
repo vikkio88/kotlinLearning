@@ -18,6 +18,12 @@ val adminMenuMethodMap = mapOf(
     arrayOf("lo", "logout") to Methods.LOGOUT,
     arrayOf("q", "quit", "exit") to Methods.QUIT,
 )
+
+val userMenuMethodMap = mapOf(
+    arrayOf("lo", "logout") to Methods.LOGOUT,
+    arrayOf("q", "quit", "exit") to Methods.QUIT,
+)
+
 val loginMenuMap = mapOf(
     arrayOf("l", "login") to Methods.LOGIN,
     arrayOf("q", "quit", "exit") to Methods.QUIT,
@@ -34,5 +40,6 @@ val methodLabels = mapOf(
 
 val stateToMethods = mapOf(
     AppState.AdminLoggedIn to adminMenuMethodMap,
+    AppState.UserLoggedIn to userMenuMethodMap,
     AppState.LoggedOut to loginMenuMap,
 )

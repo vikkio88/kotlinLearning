@@ -2,11 +2,12 @@ package org.vikkio.app.methods
 
 import org.vikkio.app.AppState
 import org.vikkio.app.Context
+import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
 
 val login = { ctx: Context ->
     val username = input("Username: ") ?: ""
-    val password = input("Password: ") ?: ""
+    val password = hiddenInput("Password: ") ?: ""
     val user = ctx.db.tryLogin(username, password)
     if (user != null
     ) {
