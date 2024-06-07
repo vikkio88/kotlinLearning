@@ -27,12 +27,17 @@ class InMemoDb : IDb {
         return users[id]
     }
 
-    override fun tryUpdateWallet(userId: String, wallet: Money): Boolean {
+    override fun tryUpdateWallet(userId: String, amount: Money): Boolean {
         val user = getUserById(userId) ?: return false
 
-        //TODO check if is possible to do wallet operation
-        val newUser = user.copy(wallet = wallet)
-        users[userId] = newUser
+        try {
+            val currentWallet = user.wallet ?: Money(0, amount.currency)
+            val newUser = user.copy(wallet = currentWallet + amount)
+            users[userId] = newUser
+        } catch (e: Exception) {
+            return false
+        }
+
         return true
     }
 

@@ -33,6 +33,10 @@ data class Money(val value: Int, val currency: Currency) {
         return Money(this.value - other.value, this.currency)
     }
 
+    operator fun times(i: Int): Money {
+        return Money(value * i, currency)
+    }
+
     fun adjustPercentage(i: Float): Money {
         val newValue = value + (value * i)
         return Money(newValue.toInt(), currency)

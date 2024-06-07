@@ -11,6 +11,8 @@ enum class Methods {
 
     // Users
     WITHDRAW,
+    DEPOSIT,
+    MOVE,
 
     QUIT,
 

@@ -6,7 +6,10 @@ import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
 import org.vikkio.data.InMemoDb
+import org.vikkio.models.Money
+import org.vikkio.models.User
 import org.vikkio.models.UserFactory
+import org.vikkio.models.enums.Currency
 import sun.misc.Signal
 import kotlin.system.exitProcess
 
@@ -97,5 +100,12 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
         val admin = UserFactory.makeAdmin("admin")
         context.db.addUser(admin)
         context.db.resetUserPassword(admin.id, "password")
+
+        val testUserNoWallet = UserFactory.makeUser("mario nowallet")
+        val testUserWallet = UserFactory.makeUser("mario wallet", Money(100, Currency.EURO))
+        context.db.addUser(testUserNoWallet)
+        context.db.resetUserPassword(testUserNoWallet.id, "mario")
+        context.db.addUser(testUserWallet)
+        context.db.resetUserPassword(testUserWallet.id, "mario")
     }
 }

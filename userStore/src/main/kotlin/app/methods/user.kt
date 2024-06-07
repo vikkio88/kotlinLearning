@@ -25,6 +25,28 @@ val logout = { ctx: Context ->
     ctx.changeState(AppState.LoggedOut)
 }
 
+val deposit = depositLambda@{ ctx: Context ->
+    println("Deposit")
+    val wallet = ctx.getLoggedInUser()?.wallet
+    if (wallet != null) {
+        println("Current balance $wallet")
+    }
+
+    if (wallet == null) {
+        println("No wallet.")
+        //TODO maybe select currency here
+        return@depositLambda
+    }
+
+    val amount = inputNumber("amount to deposit (${wallet.currency}) > ")
+    val withAmount = Money(amount, wallet.currency)
+    println("Amount: $withAmount")
+    val userId = ctx.getLoggedInUser()!!.id
+    val res = ctx.db.tryUpdateWallet(userId, withAmount)
+    if (res) println("Deposited successfully.") else println("Deposit failed.")
+    ctx.updateUser(ctx.db.getUserById(userId))
+}
+
 val withdraw = withdrawLambda@{ ctx: Context ->
     println("Withdrawing")
     val wallet = ctx.getLoggedInUser()?.wallet
@@ -41,7 +63,7 @@ val withdraw = withdrawLambda@{ ctx: Context ->
     val withAmount = Money(amount, wallet.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
-    val res = ctx.db.tryUpdateWallet(userId, wallet - withAmount)
+    val res = ctx.db.tryUpdateWallet(userId, withAmount * -1)
     if (res) println("Withdrawn successfully.") else println("Withdrawal failed.")
     ctx.updateUser(ctx.db.getUserById(userId))
 }

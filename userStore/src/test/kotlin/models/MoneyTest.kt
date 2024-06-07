@@ -37,6 +37,8 @@ class MoneyTest {
         assertEquals(twoEuros - oneEuro, oneEuro)
         assertThrows<UnsupportedOperationException> { oneEuro - twoEuros }
         assertThrows<UnsupportedOperationException> { Money(60000, Currency.US_DOLLAR) - oneEuro }
+
+        assertEquals("-1.00€", (otherOneEuro * -1).toString())
     }
 
     @Test
