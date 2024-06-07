@@ -7,7 +7,6 @@ import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
 import org.vikkio.data.InMemoDb
 import org.vikkio.models.Money
-import org.vikkio.models.User
 import org.vikkio.models.UserFactory
 import org.vikkio.models.enums.Currency
 import sun.misc.Signal
@@ -42,12 +41,13 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             choice = input()?.lowercase()
             selectedMethod = parseChoice(choice)
 
-            if (selectedMethod in methodMap) {
-                methodMap[selectedMethod]?.let { it(context) }
+            if (selectedMethod.body != null) {
+                selectedMethod.body!!.invoke(context)
                 enterToContinue()
             }
-
         }
+
+
 
         println("Exiting.")
         cleanup()
@@ -73,7 +73,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             val key = e.key[0]
             val method = e.value
 
-            println("$key - ${methodLabels[method]}")
+            println("$key - ${method.label}")
         }
     }
 
