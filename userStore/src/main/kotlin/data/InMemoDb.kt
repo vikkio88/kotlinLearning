@@ -33,8 +33,9 @@ class InMemoDb : IDb {
 
         try {
             val mainAccount = user.accounts.firstOrNull() ?: AccountFactory.makeEmpty(amount.currency)
-            //TODO fix this +
-            val newUser = user.copy(accounts = mainAccount + amount)
+            val newMainAccount = mainAccount.copy(balance = mainAccount.balance + amount)
+            //TODO bring multiple accounts back
+            val newUser = user.copy(accounts = mutableListOf(newMainAccount))
             users[userId] = newUser
         } catch (e: Exception) {
             return false
