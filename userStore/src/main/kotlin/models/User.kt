@@ -7,7 +7,7 @@ import org.vikkio.models.enums.UserType
 @Serializable
 data class User(
     val fullName: String,
-    val wallet: Money? = null,
+    val accounts: Collection<Account> = mutableListOf(),
     val role: UserType = UserType.USER,
     val id: String = "",
     val username: String = ""
@@ -17,7 +17,7 @@ object UserFactory {
     fun makeUser(fullName: String, wallet: Money? = null): User {
         return User(
             fullName = fullName.trim(),
-            wallet = wallet,
+            accounts = if (wallet != null) mutableListOf(AccountFactory.makeAccount(wallet)) else mutableListOf(),
             id = UlidCreator.getUlid().toString(),
             username = fullName.lowercase().split(" ").joinToString(".").trim('.')
         )

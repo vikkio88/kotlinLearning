@@ -1,5 +1,6 @@
 package org.vikkio.data
 
+import org.vikkio.models.AccountFactory
 import org.vikkio.models.Money
 import org.vikkio.models.User
 
@@ -31,8 +32,9 @@ class InMemoDb : IDb {
         val user = getUserById(userId) ?: return false
 
         try {
-            val currentWallet = user.wallet ?: Money(0, amount.currency)
-            val newUser = user.copy(wallet = currentWallet + amount)
+            val mainAccount = user.accounts.firstOrNull() ?: AccountFactory.makeEmpty(amount.currency)
+            //TODO fix this +
+            val newUser = user.copy(accounts = mainAccount + amount)
             users[userId] = newUser
         } catch (e: Exception) {
             return false

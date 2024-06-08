@@ -27,19 +27,19 @@ val logout = { ctx: Context ->
 
 val deposit = depositLambda@{ ctx: Context ->
     println("Deposit")
-    val wallet = ctx.getLoggedInUser()?.wallet
-    if (wallet != null) {
-        println("Current balance $wallet")
+    val mainAccount = ctx.getLoggedInUser()?.accounts?.first()
+    if (mainAccount != null) {
+        println("Current balance $mainAccount")
     }
 
-    if (wallet == null) {
+    if (mainAccount == null) {
         println("No wallet.")
         //TODO maybe select currency here
         return@depositLambda
     }
 
-    val amount = inputNumber("amount to deposit (${wallet.currency}) > ")
-    val withAmount = Money(amount, wallet.currency)
+    val amount = inputNumber("amount to deposit (${mainAccount.currency}) > ")
+    val withAmount = Money(amount, mainAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
     val res = ctx.db.tryUpdateWallet(userId, withAmount)
@@ -49,18 +49,18 @@ val deposit = depositLambda@{ ctx: Context ->
 
 val withdraw = withdrawLambda@{ ctx: Context ->
     println("Withdrawing")
-    val wallet = ctx.getLoggedInUser()?.wallet
-    if (wallet != null) {
-        println("Current balance $wallet")
+    val mainAccount = ctx.getLoggedInUser()?.accounts?.first()
+    if (mainAccount != null) {
+        println("Current balance $mainAccount")
     }
 
-    if (wallet == null || wallet.value <= 0) {
+    if (mainAccount == null || mainAccount.balance.value <= 0) {
         println("Not enough funds to withdraw")
         return@withdrawLambda
     }
 
-    val amount = inputNumber("amount (${wallet.currency}) > ")
-    val withAmount = Money(amount, wallet.currency)
+    val amount = inputNumber("amount (${mainAccount.currency}) > ")
+    val withAmount = Money(amount, mainAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
     val res = ctx.db.tryUpdateWallet(userId, withAmount * -1)
