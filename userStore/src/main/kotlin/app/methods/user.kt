@@ -27,7 +27,7 @@ val logout = { ctx: Context ->
 
 val deposit = depositLambda@{ ctx: Context ->
     println("Deposit")
-    val mainAccount = ctx.getLoggedInUser()?.accounts?.first()
+    val mainAccount = ctx.getLoggedInUser()?.accounts?.firstOrNull()
     if (mainAccount != null) {
         println("Current balance $mainAccount")
     }
@@ -49,7 +49,7 @@ val deposit = depositLambda@{ ctx: Context ->
 
 val withdraw = withdrawLambda@{ ctx: Context ->
     println("Withdrawing")
-    val mainAccount = ctx.getLoggedInUser()?.accounts?.first()
+    val mainAccount = ctx.getLoggedInUser()?.accounts?.firstOrNull()
     if (mainAccount != null) {
         println("Current balance $mainAccount")
     }
