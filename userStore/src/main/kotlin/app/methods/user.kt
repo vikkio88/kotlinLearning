@@ -67,3 +67,11 @@ val withdraw = withdrawLambda@{ ctx: Context ->
     if (res) println("Withdrawn successfully.") else println("Withdrawal failed.")
     ctx.updateUser(ctx.db.getUserById(userId))
 }
+
+val renameAccount = renameAccountLambda@{ ctx: Context ->
+    println("Rename Account")
+}
+
+val selectAccount = selectAccountLambda@{ ctx: Context ->
+    println("Select Account")
+}

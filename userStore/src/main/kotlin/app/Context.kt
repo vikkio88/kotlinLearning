@@ -5,9 +5,8 @@ import org.vikkio.models.User
 import org.vikkio.models.enums.UserType
 
 class Context(val db: IDb, private var loggedInUser: User? = null) {
-    private var state: AppState = AppState.LoggedOut
-//        get() = TODO implement getter
-
+    var state: AppState = AppState.LoggedOut
+        private set
 
     fun login(user: User) {
         when (user.role) {
@@ -28,10 +27,6 @@ class Context(val db: IDb, private var loggedInUser: User? = null) {
 
     fun changeState(newState: AppState) {
         state = newState
-    }
-
-    fun getState(): AppState {
-        return state
     }
 
     fun getLoggedInUser(): User? {

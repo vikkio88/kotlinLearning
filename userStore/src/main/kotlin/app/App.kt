@@ -56,7 +56,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
     private fun state() {
         val user = context.getLoggedInUser()
         println(
-            when (context.getState()) {
+            when (context.state) {
                 AppState.LoggedOut -> ""
                 AppState.AdminLoggedIn -> "[Admin] ${user?.username}."
                 AppState.UserLoggedIn -> "Logged in as ${user?.username}.\nBalance: ${user?.accounts ?: "*No Wallet*"}"
@@ -65,7 +65,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
     }
 
     private fun getMenu(): Map<Array<String>, Methods> {
-        return stateToMethods[context.getState()] ?: loginMenuMap
+        return stateToMethods[context.state] ?: loginMenuMap
     }
 
     private fun menu() {

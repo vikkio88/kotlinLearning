@@ -12,9 +12,14 @@ enum class Methods(val label: String, val body: ((Context)-> Unit)? = null) {
     ADMIN_CHANGE_PASSWORD("Reset User Password", adminChangePassword),
 
     // Users
+    // -> Money movements
     WITHDRAW("Withdraw", withdraw),
     DEPOSIT("Deposit", deposit),
     MOVE("Move"),
+    // -> Account Utilities
+    SELECT_ACCOUNT("Select Account", selectAccount),
+    RENAME_ACCOUNT("Select Account", renameAccount),
+
 
     QUIT("Quit app"),
 
