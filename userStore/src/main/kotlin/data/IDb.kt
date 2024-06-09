@@ -7,7 +7,7 @@ interface IDb {
     fun addUser(user: User): Boolean
     fun getUsers(): Iterable<User>
     fun getUserById(id: String): User?
-    fun tryUpdateWallet(userId: String, amount: Money): Boolean
+    fun tryUpdateWallet(userId: String, amount: Money, accountId: String? = null): Boolean
 
     fun resetUserPassword(userId: String, newPassword: String): Boolean
     fun setUserPassword(userId: String, newPassword: String, oldPassword: String): Boolean

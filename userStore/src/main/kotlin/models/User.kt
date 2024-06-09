@@ -11,7 +11,11 @@ data class User(
     val role: UserType = UserType.USER,
     val id: String = "",
     val username: String = ""
-)
+){
+    fun getMainAccount(): Account? {
+        return accounts.firstOrNull()
+    }
+}
 
 object UserFactory {
     fun makeUser(fullName: String, wallet: Money? = null): User {

@@ -4,19 +4,21 @@ import kotlinx.serialization.*
 import org.vikkio.models.enums.Currency
 
 @Serializable
-data class Account(val id: String, val currency: Currency, val balance: Money) {
-    //TODO add account name
+data class Account(val id: String, val balance: Money, var name: String? = null) {
+    val currency: Currency
+        get() = balance.currency
+
     override fun toString(): String {
-        return "$id : $balance"
+        return "${name ?: id} : $balance"
     }
 }
 
 object AccountFactory {
     fun makeAccount(amount: Money): Account {
-        return Account("id", amount.currency, amount)
+        return Account("id",  amount)
     }
 
     fun makeEmpty(currency: Currency): Account {
-        return Account("temp", currency, Money(0, currency))
+        return Account("temp", Money(0, currency))
     }
 }

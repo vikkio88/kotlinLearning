@@ -28,11 +28,11 @@ class InMemoDb : IDb {
         return users[id]
     }
 
-    override fun tryUpdateWallet(userId: String, amount: Money): Boolean {
+    override fun tryUpdateWallet(userId: String, amount: Money, accountId: String?): Boolean {
         val user = getUserById(userId) ?: return false
 
         try {
-            val mainAccount = user.accounts.firstOrNull() ?: AccountFactory.makeEmpty(amount.currency)
+            val mainAccount = user.getMainAccount() ?: AccountFactory.makeEmpty(amount.currency)
             val newMainAccount = mainAccount.copy(balance = mainAccount.balance + amount)
             //TODO bring multiple accounts back
             val newUser = user.copy(accounts = mutableListOf(newMainAccount))
