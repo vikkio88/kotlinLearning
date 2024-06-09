@@ -12,7 +12,7 @@ Small e ercise for a cli tool.
     - [x] Logout
     - [x] Withdraw
     - [x] Deposit
-      - [] Creating wallet if none 
+      - [ ] Creating wallet if none 
     - [ ] Change Password
     - [x] Quit
 - [ ] App persistency with JSON file
@@ -21,7 +21,7 @@ Small e ercise for a cli tool.
 - [ ] Manage Secrets with env files or similar
 - [ ] Admin journey
     - [ ] Manage Users (create/delete/reset password)
-      - [] Create
+      - [ ] Create
         - [ ] choose user currency of main wallet 
       - [ ] Delete
       - [x] Reset Password
