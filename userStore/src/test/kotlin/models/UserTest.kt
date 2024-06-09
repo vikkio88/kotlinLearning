@@ -3,6 +3,7 @@ package models
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.vikkio.libs.JSON
+import org.vikkio.models.AccountFactory
 import org.vikkio.models.Money
 import org.vikkio.models.User
 import org.vikkio.models.UserFactory
@@ -12,7 +13,7 @@ import kotlin.test.assertContains
 class UserTest {
 
     @Test
-    fun getUsername() {
+    fun userFactory() {
         var user = UserFactory.makeUser("Mario Rossi")
         assertEquals("mario.rossi", user.username)
 
@@ -24,6 +25,13 @@ class UserTest {
 
         user = UserFactory.makeUser("Ciccio X")
         assertEquals("ciccio.x", user.username)
+
+        // with account
+        val mainAccount = AccountFactory.makeAccount(Money(100, Currency.EURO))
+        user = UserFactory.makeUser("Ciccio Main", mainAccount)
+        assertEquals("ciccio.main", user.username)
+        assertNotNull(user.getMainAccount())
+        assertEquals("1.00€", user.getMainAccount()?.balance.toString())
     }
 
     @Test

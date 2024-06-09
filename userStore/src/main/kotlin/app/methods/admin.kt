@@ -4,20 +4,16 @@ import org.vikkio.app.Context
 import org.vikkio.cli.getFromList
 import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
-import org.vikkio.cli.inputNumber
-import org.vikkio.models.Money
 import org.vikkio.models.User
 import org.vikkio.models.UserFactory
-import org.vikkio.models.enums.Currency
 import kotlin.random.Random
 
 const val MAX_RETRY: Int = 3
 
-val addUser = { ctx: Context ->
+val addUser = userCreationLambda@{ ctx: Context ->
     val name = input("Full name: ") ?: "Unknown"
-    val money = inputNumber("Balance in $: ")
-
-    var user = UserFactory.makeUser(name, Money(money, Currency.US_DOLLAR))
+    val mainAccount = createAccount()
+    var user = UserFactory.makeUser(name, mainAccount)
     var added = ctx.db.addUser(user)
     var tries = 0
     while (!added && tries < MAX_RETRY) {
@@ -28,10 +24,12 @@ val addUser = { ctx: Context ->
         tries += 1
     }
 
-
-    if (added) {
-        println("User '${user.username}' generated")
+    if (!added) {
+        println("Could not create the user. Try again.")
+        return@userCreationLambda
     }
+
+    println("User '${user.username}' generated")
 }
 
 val listUsers = { ctx: Context ->

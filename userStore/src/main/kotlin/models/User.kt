@@ -11,7 +11,7 @@ data class User(
     val role: UserType = UserType.USER,
     val id: String = "",
     val username: String = ""
-){
+) {
     fun getMainAccount(): Account? {
         return accounts.firstOrNull()
     }
@@ -22,6 +22,15 @@ object UserFactory {
         return User(
             fullName = fullName.trim(),
             accounts = if (wallet != null) mutableListOf(AccountFactory.makeAccount(wallet)) else mutableListOf(),
+            id = UlidCreator.getUlid().toString(),
+            username = fullName.lowercase().split(" ").joinToString(".").trim('.')
+        )
+    }
+
+    fun makeUser(fullName: String, mainAccount: Account): User {
+        return User(
+            fullName = fullName.trim(),
+            accounts = mutableListOf(mainAccount),
             id = UlidCreator.getUlid().toString(),
             username = fullName.lowercase().split(" ").joinToString(".").trim('.')
         )

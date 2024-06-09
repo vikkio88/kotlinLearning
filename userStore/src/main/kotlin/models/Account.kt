@@ -1,7 +1,10 @@
 package org.vikkio.models
 
+import com.github.f4b6a3.ulid.UlidCreator
 import kotlinx.serialization.*
 import org.vikkio.models.enums.Currency
+
+const val ACCOUNT_PREFIX = "ba-"
 
 @Serializable
 data class Account(val id: String, val balance: Money, var name: String? = null) {
@@ -15,7 +18,7 @@ data class Account(val id: String, val balance: Money, var name: String? = null)
 
 object AccountFactory {
     fun makeAccount(amount: Money): Account {
-        return Account("id",  amount)
+        return Account("$ACCOUNT_PREFIX${UlidCreator.getUlid()}", amount)
     }
 
     fun makeEmpty(currency: Currency): Account {
