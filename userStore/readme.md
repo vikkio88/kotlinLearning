@@ -15,18 +15,18 @@ Small e ercise for a cli tool.
       - [ ] Creating wallet if none 
     - [ ] Change Password
     - [x] Quit
-- [ ] App persistency with JSON file
-    - [ ] App persistency with some db (not plain json)
+- [x] App persistency with JSON file
+- [ ] App persistency with some db (not plain json)
 - [ ] Encrypt password whilst persisted
 - [ ] Manage Secrets with env files or similar
 - [ ] Admin journey
-    - [ ] Manage Users (create/delete/reset password)
-      - [ ] Create
-        - [ ] choose user currency of main wallet 
-      - [ ] Delete
+    - [x] Manage Users (create/delete/reset password)
+      - [x] Create
+        - [x] choose user currency of main wallet 
+      - [x] Delete
       - [x] Reset Password
     - [x] Create new account for users
-- [ ] User Journey - Deposit/Withdraw money with fractional unit to movements
+- [x] User Journey - Deposit/Withdraw money with fractional unit to movements
 - [ ] User Journey - Move Money between users
 - [ ] Allow users to have many different bank accounts
     - [ ] move money between accounts
