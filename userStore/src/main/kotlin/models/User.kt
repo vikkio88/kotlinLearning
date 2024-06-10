@@ -1,19 +1,24 @@
 package org.vikkio.models
 
 import com.github.f4b6a3.ulid.UlidCreator
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
 import org.vikkio.models.enums.UserType
 
 @Serializable
 data class User(
     val fullName: String,
-    val accounts: Collection<Account> = mutableListOf(),
+    //This has to be MutableList instead of IFace as MutableCollection is not Serializable
+    val accounts: MutableList<Account> = mutableListOf(),
     val role: UserType = UserType.USER,
     val id: String = "",
     val username: String = ""
 ) {
-    fun getMainAccount(): Account? {
-        return accounts.firstOrNull()
+    @Transient
+    var selectedAccount: Account? = null
+        get() = field ?: accounts.firstOrNull()
+
+    fun addAccount(account: Account) {
+        accounts.add(account)
     }
 }
 

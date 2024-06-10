@@ -2,22 +2,23 @@ package org.vikkio.app.methods
 
 import org.vikkio.app.AppState
 import org.vikkio.app.Context
+import org.vikkio.cli.getFromList
 import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
 import org.vikkio.cli.inputNumber
 import org.vikkio.models.Money
 
-val login = { ctx: Context ->
+val login = fun(ctx: Context) {
     val username = input("Username: ") ?: ""
     val password = hiddenInput("Password: ") ?: ""
     val user = ctx.db.tryLogin(username, password)
-    if (user != null
-    ) {
-        println("Login successful...")
-        ctx.login(user)
-    } else {
+    if (user == null) {
         println("Invalid login, try again.")
+        return
     }
+
+    println("Login successful...")
+    ctx.login(user)
 }
 
 val logout = { ctx: Context ->
@@ -25,9 +26,9 @@ val logout = { ctx: Context ->
     ctx.changeState(AppState.LoggedOut)
 }
 
-val deposit = depositLambda@{ ctx: Context ->
+val deposit = fun(ctx: Context) {
     println("Deposit")
-    val mainAccount = ctx.getLoggedInUser()?.accounts?.firstOrNull()
+    val mainAccount = ctx.getLoggedInUser()?.selectedAccount
     if (mainAccount != null) {
         println("Current balance $mainAccount")
     }
@@ -35,7 +36,7 @@ val deposit = depositLambda@{ ctx: Context ->
     if (mainAccount == null) {
         println("No wallet.")
         //TODO maybe select currency here
-        return@depositLambda
+        return
     }
 
     val amount = inputNumber("amount to deposit (${mainAccount.currency}) > ")
@@ -47,16 +48,16 @@ val deposit = depositLambda@{ ctx: Context ->
     ctx.updateUser(ctx.db.getUserById(userId))
 }
 
-val withdraw = withdrawLambda@{ ctx: Context ->
+val withdraw = fun(ctx: Context) {
     println("Withdrawing")
-    val mainAccount = ctx.getLoggedInUser()?.accounts?.firstOrNull()
+    val mainAccount = ctx.getLoggedInUser()?.selectedAccount
     if (mainAccount != null) {
         println("Current balance $mainAccount")
     }
 
     if (mainAccount == null || mainAccount.balance.value <= 0) {
         println("Not enough funds to withdraw")
-        return@withdrawLambda
+        return
     }
 
     val amount = inputNumber("amount (${mainAccount.currency}) > ")
@@ -68,10 +69,38 @@ val withdraw = withdrawLambda@{ ctx: Context ->
     ctx.updateUser(ctx.db.getUserById(userId))
 }
 
-val renameAccount = renameAccountLambda@{ ctx: Context ->
+val renameAccount = fun(ctx: Context) {
     println("Rename Account")
+    val selectedAccount = ctx.getLoggedInUser()?.selectedAccount
+    if (selectedAccount == null) {
+        println("No account selected.")
+        return
+    }
+
+    val newName = input("Add new account name: ")
+    selectedAccount.name = newName
+    ctx.persistChanges()
+
 }
 
-val selectAccount = selectAccountLambda@{ ctx: Context ->
+val selectAccount = fun(ctx: Context) {
     println("Select Account")
+    val user = ctx.getLoggedInUser()!!
+    if (user.accounts.count() < 2) {
+        println("You only have 1 account.")
+        return
+    }
+
+    val (_, account) = getFromList(user.accounts)
+    user.selectedAccount = account
+    println("Selected account $account until the end of the session.")
+}
+
+val createNewAccount = fun(ctx: Context) {
+    println("Creating new account")
+    val user = ctx.getLoggedInUser()
+    val newAccount = createAccount(specifyName = true)
+    user!!.addAccount(newAccount)
+    ctx.persistChanges()
+    println("New account created")
 }
