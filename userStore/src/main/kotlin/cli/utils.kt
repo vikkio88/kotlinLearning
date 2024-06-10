@@ -11,6 +11,11 @@ fun input(prompt: String = "> "): String? {
     return readlnOrNull()
 }
 
+fun yNInput(prompt: String? = null): Boolean {
+    val yn = input("${if (prompt != null) "$prompt [yes/no]" else "[yes/no]"} > ") ?: "no"
+    return yn.lowercase() == "yes"
+}
+
 fun hiddenInput(prompt: String = "> "): String? {
     val console: Console? = System.console()
     if (console != null) {
@@ -20,6 +25,9 @@ fun hiddenInput(prompt: String = "> "): String? {
     return input(prompt)
 }
 
+/**
+ * returns the Index and the T
+ */
 fun <T> getFromList(list: List<T>): Pair<Int, T?> {
     val count = list.count()
     if (count < 1) {
