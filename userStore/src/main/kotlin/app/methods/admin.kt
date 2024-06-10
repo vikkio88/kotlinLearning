@@ -4,7 +4,7 @@ import org.vikkio.app.Context
 import org.vikkio.cli.getFromList
 import org.vikkio.cli.hiddenInput
 import org.vikkio.cli.input
-import org.vikkio.models.User
+import org.vikkio.cli.yNInput
 import org.vikkio.models.UserFactory
 import kotlin.random.Random
 
@@ -38,18 +38,39 @@ val listUsers = { ctx: Context ->
     }
 }
 
-
-val adminChangePassword = { ctx: Context ->
+val deleteUser = deleteUserLambda@{ ctx: Context ->
     val (index, user) = getFromList(ctx.db.getUsers().toList())
     if (index < 0) {
         println("No user selected.")
+        return@deleteUserLambda
 
-    } else if (user is User) {
-        println("selected user [${index + 1}]: ${user.fullName}")
-        val password = hiddenInput("New password: ")
-
-        if (password?.isEmpty() == true) println("No password specified, using default 'PASSWORD'.")
-        val res = ctx.db.resetUserPassword(user.id, password ?: "PASSWORD")
-        println(if (res) "Password changed correctly." else "Failed to change Password.")
     }
+    println("selected user [${index + 1}]: ${user!!.fullName}")
+    if (!yNInput("Confirm deletion?")) {
+        println("Cancelling deletion, do confirm type 'yes'.")
+        return@deleteUserLambda
+    }
+
+    println("Deletion confirmed.")
+    println("Deleting user '${user.username}'.")
+    ctx.db.deleteUser(user.id)
+
+
+}
+
+
+val adminChangePassword = adminChangeLambda@{ ctx: Context ->
+    val (index, user) = getFromList(ctx.db.getUsers().toList())
+    if (index < 0) {
+        println("No user selected.")
+        return@adminChangeLambda
+
+    }
+    println("selected user [${index + 1}]: ${user!!.fullName}")
+    val password = hiddenInput("New password: ")
+
+    if (password?.isEmpty() == true) println("No password specified, using default 'PASSWORD'.")
+    val res = ctx.db.resetUserPassword(user.id, password ?: "PASSWORD")
+    println(if (res) "Password changed correctly." else "Failed to change Password.")
+
 }
