@@ -6,17 +6,15 @@ import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
 import org.vikkio.data.InMemoDb
-import org.vikkio.models.Money
-import org.vikkio.models.UserFactory
-import org.vikkio.models.enums.Currency
 import sun.misc.Signal
 import kotlin.system.exitProcess
 
-val defaultCleanup = {
+val defaultCleanup = { ctx: Context ->
+    ctx.db.cleanup()
     println("All Done. Bye!\n\n")
 }
 
-class App(private val cleanup: () -> Unit = defaultCleanup) {
+class App(private val cleanup: (Context) -> Unit = defaultCleanup) {
     private var context: Context = Context(InMemoDb())
 
     fun run() {
@@ -50,7 +48,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
 
 
         println("Exiting.")
-        cleanup()
+        cleanup(context)
     }
 
     private fun state() {
@@ -59,7 +57,7 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
             when (context.state) {
                 AppState.LoggedOut -> ""
                 AppState.AdminLoggedIn -> "[Admin] ${user?.username}."
-                AppState.UserLoggedIn -> "Logged in as ${user?.username}.\nBalance: ${user?.accounts ?: "*No Wallet*"}"
+                AppState.UserLoggedIn -> "Logged in as ${user?.username}.\nBalance: ${user?.selectedAccount ?: "*No Accounts*"}"
             }
         )
     }
@@ -90,22 +88,13 @@ class App(private val cleanup: () -> Unit = defaultCleanup) {
     private fun setup() {
         Signal.handle(Signal("INT")) { _ ->
             println("\n\nReceived SIGINT, terminating app...")
-            cleanup()
+            cleanup(context)
             exitProcess(0)
         }
     }
 
     private fun boot() {
         setup()
-        val admin = UserFactory.makeAdmin("admin")
-        context.db.addUser(admin)
-        context.db.resetUserPassword(admin.id, "password")
-
-        val testUserNoWallet = UserFactory.makeUser("mario nowallet")
-        val testUserWallet = UserFactory.makeUser("mario wallet", Money(100, Currency.EURO))
-        context.db.addUser(testUserNoWallet)
-        context.db.resetUserPassword(testUserNoWallet.id, "mario")
-        context.db.addUser(testUserWallet)
-        context.db.resetUserPassword(testUserWallet.id, "mario")
+        context.db.boot()
     }
 }
