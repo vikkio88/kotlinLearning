@@ -34,4 +34,10 @@ class Context(val db: IDb, private var loggedInUser: User? = null) {
 
     }
 
+    fun persistChanges() {
+        if (loggedInUser != null) {
+            db.updateUser(loggedInUser!!)
+        }
+    }
+
 }
