@@ -10,7 +10,7 @@ import kotlin.random.Random
 
 const val MAX_RETRY: Int = 3
 
-val addUser = userCreationLambda@{ ctx: Context ->
+val addUser = fun(ctx: Context) {
     val name = input("Full name: ") ?: "Unknown"
     val mainAccount = createAccount()
     var user = UserFactory.makeUser(name, mainAccount)
@@ -26,7 +26,7 @@ val addUser = userCreationLambda@{ ctx: Context ->
 
     if (!added) {
         println("Could not create the user. Try again.")
-        return@userCreationLambda
+        return
     }
 
     println("User '${user.username}' generated")
@@ -38,32 +38,33 @@ val listUsers = { ctx: Context ->
     }
 }
 
-val deleteUser = deleteUserLambda@{ ctx: Context ->
+val deleteUser = fun(ctx: Context) {
     val (index, user) = getFromList(ctx.db.getUsers().toList())
     if (index < 0) {
         println("No user selected.")
-        return@deleteUserLambda
+        return
 
     }
     println("selected user [${index + 1}]: ${user!!.fullName}")
     if (!yNInput("Confirm deletion?")) {
-        println("Cancelling deletion, do confirm type 'yes'.")
-        return@deleteUserLambda
+        println("Cancelling deletion, to confirm type 'yes'.")
+        return
     }
 
     println("Deletion confirmed.")
     println("Deleting user '${user.username}'.")
     ctx.db.deleteUser(user.id)
+    println("user deleted.")
 
 
 }
 
 
-val adminChangePassword = adminChangeLambda@{ ctx: Context ->
+val adminChangePassword = fun(ctx: Context) {
     val (index, user) = getFromList(ctx.db.getUsers().toList())
     if (index < 0) {
         println("No user selected.")
-        return@adminChangeLambda
+        return
 
     }
     println("selected user [${index + 1}]: ${user!!.fullName}")
@@ -72,5 +73,4 @@ val adminChangePassword = adminChangeLambda@{ ctx: Context ->
     if (password?.isEmpty() == true) println("No password specified, using default 'PASSWORD'.")
     val res = ctx.db.resetUserPassword(user.id, password ?: "PASSWORD")
     println(if (res) "Password changed correctly." else "Failed to change Password.")
-
 }
