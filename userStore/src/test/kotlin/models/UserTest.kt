@@ -30,8 +30,8 @@ class UserTest {
         val mainAccount = AccountFactory.makeAccount(Money(100, Currency.EURO))
         user = UserFactory.makeUser("Ciccio Main", mainAccount)
         assertEquals("ciccio.main", user.username)
-        assertNotNull(user.getMainAccount())
-        assertEquals("1.00€", user.getMainAccount()?.balance.toString())
+        assertNotNull(user.selectedAccount)
+        assertEquals("1.00€", user.selectedAccount?.balance.toString())
     }
 
     @Test
