@@ -1,5 +1,6 @@
 package org.vikkio.data
 
+import org.vikkio.libs.Crypto
 import org.vikkio.libs.JSON
 import org.vikkio.models.AccountFactory
 import org.vikkio.models.Money
@@ -11,7 +12,7 @@ import java.io.File
 const val DB_FILENAME = "test.db.json"
 const val DB_PWD_FILENAME = "test.pwd.db.json"
 
-class InMemoDb : IDb {
+class InMemoDb(private val crypto: Crypto? = null) : IDb {
     private var users = mutableMapOf<String, User>()
     private val usernames = mutableMapOf<String, String>()
     private val passwords = mutableMapOf<String, String>()
@@ -40,7 +41,17 @@ class InMemoDb : IDb {
             return null
         }
 
-        return JSON.parse(File(DB_PWD_FILENAME).readText())
+        val encryptedPasswords = JSON.parse<MutableMap<String, String>>(File(DB_PWD_FILENAME).readText())
+        val passwords = mutableMapOf<String, String>()
+        if (crypto == null) {
+            return encryptedPasswords
+        }
+
+        for ((id, ePwd) in encryptedPasswords) {
+            passwords[id] = crypto.decrypt(ePwd)
+        }
+
+        return passwords
     }
 
     private fun defaultUsers() {
@@ -63,8 +74,16 @@ class InMemoDb : IDb {
 
     private fun persist() {
         //save to file
+        val encryptedPasswords = mutableMapOf<String, String>()
+
+        if (crypto != null) {
+            for ((id, pwd) in passwords) {
+                encryptedPasswords[id] = crypto.encrypt(pwd)
+            }
+        }
+
         File(DB_FILENAME).writeText(JSON.stringify(users))
-        File(DB_PWD_FILENAME).writeText(JSON.stringify(passwords))
+        File(DB_PWD_FILENAME).writeText(JSON.stringify(encryptedPasswords))
     }
 
     override fun addUser(user: User): Boolean {

@@ -6,6 +6,7 @@ import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
 import org.vikkio.data.InMemoDb
+import org.vikkio.libs.Crypto
 import sun.misc.Signal
 import kotlin.system.exitProcess
 
@@ -14,8 +15,8 @@ val defaultCleanup = { ctx: Context ->
     println("All Done. Bye!\n\n")
 }
 
-class App(private val cleanup: (Context) -> Unit = defaultCleanup) {
-    private var context: Context = Context(InMemoDb())
+class App(aesSecret: String, private val cleanup: (Context) -> Unit = defaultCleanup) {
+    private var context: Context = Context(InMemoDb(Crypto(aesSecret)))
 
     fun run() {
         boot()
