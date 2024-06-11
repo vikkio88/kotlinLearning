@@ -5,13 +5,14 @@ import org.vikkio.app.AppState
 val adminMenuMethodMap = mapOf(
     arrayOf("a", "add") to Methods.ADD_USER,
     arrayOf("l", "ls", "list") to Methods.LIST_USERS,
-    arrayOf("cp") to Methods.ADMIN_CHANGE_PASSWORD,
+    arrayOf("rp") to Methods.ADMIN_CHANGE_PASSWORD,
     arrayOf("du") to Methods.DELETE_USER,
     arrayOf("lo", "logout") to Methods.LOGOUT,
     arrayOf("q", "quit", "exit") to Methods.QUIT,
 )
 
 val userMenuMethodMap = mapOf(
+    arrayOf("cp", "change:password") to Methods.CHANGE_PASSWORD,
     arrayOf("w", "withdraw") to Methods.WITHDRAW,
     arrayOf("d", "deposit") to Methods.DEPOSIT,
     arrayOf("ra", "rename:account") to Methods.RENAME_ACCOUNT,

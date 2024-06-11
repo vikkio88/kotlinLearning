@@ -104,3 +104,22 @@ val createNewAccount = fun(ctx: Context) {
     ctx.persistChanges()
     println("New account created")
 }
+
+val changePassword = fun(ctx: Context) {
+    println("Change Password")
+    val user = ctx.getLoggedInUser()
+    val oldPwd = hiddenInput("Old password: ")
+    val newPwd = hiddenInput("New password: ")
+    val newPwdConfirm = hiddenInput("New password (confirm): ")
+
+    if (newPwd != newPwdConfirm) {
+        println("The two new password do not match. try again.")
+    }
+
+    if (!ctx.db.setUserPassword(user!!.id, newPwd ?: "", oldPwd ?: "")) {
+        println("Changing password failed, maybe you mistyped your old password?")
+        return
+    }
+
+    println("Password changed.")
+}

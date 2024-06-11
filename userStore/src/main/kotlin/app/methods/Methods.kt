@@ -13,10 +13,12 @@ enum class Methods(val label: String, val body: ((Context) -> Unit)? = null) {
     DELETE_USER("Delete User", deleteUser),
 
     // Users
+    CHANGE_PASSWORD("Change Password", changePassword),
+
     // -> Money movements
     WITHDRAW("Withdraw", withdraw),
     DEPOSIT("Deposit", deposit),
-    MOVE("Move"),
+    MOVE_MONEY("Move"),
 
     // -> Account Utilities
     SELECT_ACCOUNT("Select Account", selectAccount),
