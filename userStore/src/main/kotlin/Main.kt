@@ -1,9 +1,13 @@
 package org.vikkio
 
+import io.github.cdimascio.dotenv.dotenv
 import org.vikkio.app.App
 
 
 fun main() {
-    val app = App()
+    val env = dotenv()
+    val appSecret = env["APP_SECRET"] ?: "secret"
+    println(appSecret)
+    val app = App(appSecret)
     app.run()
 }
