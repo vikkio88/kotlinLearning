@@ -6,12 +6,11 @@ build/
 
 # InMemoDb persistency file
 *.db.json
+# Config
+.env
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
