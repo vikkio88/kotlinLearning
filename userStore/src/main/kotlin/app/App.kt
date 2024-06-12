@@ -37,7 +37,7 @@ class App(aesSecret: String, private val cleanup: (Context) -> Unit = defaultCle
 
             menu()
 
-            choice = input()?.lowercase()
+            choice = input()?.lowercase()?.trim()
             selectedMethod = parseChoice(choice)
 
             if (selectedMethod.body != null) {
