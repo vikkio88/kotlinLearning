@@ -33,8 +33,8 @@ val addUser = fun(ctx: Context) {
 }
 
 val listUsers = { ctx: Context ->
-    ctx.db.getUsers().forEach {
-        println(it.fullName)
+    ctx.db.getUsers().forEachIndexed { i, u ->
+        println("${i + 1} - $u")
     }
 }
 
@@ -55,8 +55,6 @@ val deleteUser = fun(ctx: Context) {
     println("Deleting user '${user.username}'.")
     ctx.db.deleteUser(user.id)
     println("user deleted.")
-
-
 }
 
 
