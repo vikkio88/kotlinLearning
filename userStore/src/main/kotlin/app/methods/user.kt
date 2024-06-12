@@ -28,19 +28,18 @@ val logout = { ctx: Context ->
 
 val deposit = fun(ctx: Context) {
     println("Deposit")
-    val mainAccount = ctx.getLoggedInUser()?.selectedAccount
-    if (mainAccount != null) {
-        println("Current balance $mainAccount")
+    val selectedAccount = ctx.getLoggedInUser()?.selectedAccount
+    if (selectedAccount != null) {
+        println("Current balance $selectedAccount")
     }
 
-    if (mainAccount == null) {
+    if (selectedAccount == null) {
         println("No wallet.")
-        //TODO maybe select currency here
         return
     }
 
-    val amount = inputNumber("amount to deposit (${mainAccount.currency}) > ")
-    val withAmount = Money(amount, mainAccount.currency)
+    val amount = inputNumber("amount to deposit (${selectedAccount.currency}) > ")
+    val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
     val res = ctx.db.tryUpdateWallet(userId, withAmount)
@@ -50,18 +49,18 @@ val deposit = fun(ctx: Context) {
 
 val withdraw = fun(ctx: Context) {
     println("Withdrawing")
-    val mainAccount = ctx.getLoggedInUser()?.selectedAccount
-    if (mainAccount != null) {
-        println("Current balance $mainAccount")
+    val selectedAccount = ctx.getLoggedInUser()?.selectedAccount
+    if (selectedAccount != null) {
+        println("Current balance $selectedAccount")
     }
 
-    if (mainAccount == null || mainAccount.balance.value <= 0) {
+    if (selectedAccount == null || selectedAccount.balance.value <= 0) {
         println("Not enough funds to withdraw")
         return
     }
 
-    val amount = inputNumber("amount (${mainAccount.currency}) > ")
-    val withAmount = Money(amount, mainAccount.currency)
+    val amount = inputNumber("amount (${selectedAccount.currency}) > ")
+    val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
     val res = ctx.db.tryUpdateWallet(userId, withAmount * -1)
@@ -80,7 +79,6 @@ val renameAccount = fun(ctx: Context) {
     val newName = input("Add new account name: ")
     selectedAccount.name = newName
     ctx.persistChanges()
-
 }
 
 val selectAccount = fun(ctx: Context) {
@@ -122,4 +120,14 @@ val changePassword = fun(ctx: Context) {
     }
 
     println("Password changed.")
+}
+
+val accountInfo = fun(ctx: Context) {
+    val selectedAccount = ctx.getLoggedInUser()?.selectedAccount
+    if (selectedAccount == null) {
+        println("No Account selected.")
+        return
+    }
+
+    println(selectedAccount.toString(full = true))
 }

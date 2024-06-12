@@ -21,6 +21,7 @@ enum class Methods(val label: String, val body: ((Context) -> Unit)? = null) {
     MOVE_MONEY("Move"),
 
     // -> Account Utilities
+    ACCOUNT_INFO("Account Info", accountInfo),
     SELECT_ACCOUNT("Select Account", selectAccount),
     CREATE_NEWACCOUNT("Create New Account", createNewAccount),
     RENAME_ACCOUNT("Rename Account", renameAccount),
