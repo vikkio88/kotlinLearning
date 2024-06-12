@@ -14,6 +14,10 @@ data class Account(val id: String, val balance: Money, var name: String? = null)
     override fun toString(): String {
         return "${name ?: id} : $balance"
     }
+
+    fun toString(full: Boolean): String {
+        return "${if (name != null) "name: $name\n" else ""}accountId: $id\nbalance: $balance\n"
+    }
 }
 
 object AccountFactory {
