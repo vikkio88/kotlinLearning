@@ -20,6 +20,11 @@ data class User(
     fun addAccount(account: Account) {
         accounts.add(account)
     }
+
+    override fun toString(): String {
+        val accountsCount = accounts.count()
+        return "$username ($fullName). $accountsCount account${if (accountsCount > 1) "s" else ""}"
+    }
 }
 
 object UserFactory {
