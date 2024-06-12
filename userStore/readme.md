@@ -7,19 +7,19 @@ Small e ercise for a cli tool.
 - [x] Money Math
 - [x] App lifecycle with state
 - [x] Catch Ctrl+C
-- [ ] User journeys
+- [x] User journeys
     - [x] Login
     - [x] Logout
     - [x] Withdraw
     - [x] Deposit
-      - [ ] Creating wallet if none 
+    - [x] Creating Account 
     - [x] Change Password
     - [x] Quit
 - [x] App persistency with JSON file
 - [ ] App persistency with some db (not plain json)
 - [x] Encrypt password whilst persisted
 - [x] Manage Secrets with env files or similar
-- [ ] Admin journey
+- [x] Admin journey
     - [x] Manage Users (create/delete/reset password)
       - [x] Create
         - [x] choose user currency of main wallet 
