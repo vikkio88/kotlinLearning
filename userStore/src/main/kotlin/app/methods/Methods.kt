@@ -18,7 +18,8 @@ enum class Methods(val label: String, val body: ((Context) -> Unit)? = null) {
     // -> Money movements
     WITHDRAW("Withdraw", withdraw),
     DEPOSIT("Deposit", deposit),
-    MOVE_MONEY("Move"),
+    MOVE_MONEY("Move money between accounts", moveFundsBetweenAccounts),
+    PAY("Pay into another account", pay),
 
     // -> Account Utilities
     ACCOUNT_INFO("Account Info", accountInfo),

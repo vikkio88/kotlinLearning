@@ -42,9 +42,9 @@ val deposit = fun(ctx: Context) {
     val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
-    val res = ctx.db.tryUpdateWallet(userId, withAmount)
+    val res = ctx.db.tryUpdateUserAccount(userId, withAmount)
     if (res) println("Deposited successfully.") else println("Deposit failed.")
-    ctx.updateUser(ctx.db.getUserById(userId))
+    ctx.refreshLoggedInUser(ctx.db.getUserById(userId))
 }
 
 val withdraw = fun(ctx: Context) {
@@ -63,9 +63,9 @@ val withdraw = fun(ctx: Context) {
     val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
-    val res = ctx.db.tryUpdateWallet(userId, withAmount * -1)
+    val res = ctx.db.tryUpdateUserAccount(userId, withAmount * -1)
     if (res) println("Withdrawn successfully.") else println("Withdrawal failed.")
-    ctx.updateUser(ctx.db.getUserById(userId))
+    ctx.refreshLoggedInUser(ctx.db.getUserById(userId))
 }
 
 val renameAccount = fun(ctx: Context) {
@@ -130,4 +130,34 @@ val accountInfo = fun(ctx: Context) {
     }
 
     println(selectedAccount.toString(full = true))
+}
+
+val moveFundsBetweenAccounts = fun(ctx: Context) {
+    println("Move funds between accounts")
+    val user = ctx.getLoggedInUser()!!
+    if (user.accounts.count() < 2) {
+        println("No accounts to move your funds to.")
+        return
+    }
+}
+
+val pay = fun(ctx: Context) {
+    println("Payment")
+    val user = ctx.getLoggedInUser()!!
+    val fromAccount = user.selectedAccount
+    if (fromAccount == null) {
+        println("No account selected, retry.")
+        return
+    }
+    println("using your selected account: '${fromAccount}'")
+    println("Specify bank account to move money to:")
+    val toId = input()
+    val amount = inputNumber("amount (${fromAccount.currency}): ")
+    if (ctx.db.transferFunds(fromAccount.id, toId ?: "", Money(amount, fromAccount.currency))) {
+        ctx.refreshLoggedInUser(ctx.db.getUserById(user.id))
+        println("Payment successful.")
+        return
+    }
+
+    println("Payment rejected.")
 }

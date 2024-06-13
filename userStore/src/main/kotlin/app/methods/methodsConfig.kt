@@ -16,6 +16,9 @@ val userMenuMethodMap = mapOf(
     arrayOf("cp", "change:password") to Methods.CHANGE_PASSWORD,
     arrayOf("w", "withdraw") to Methods.WITHDRAW,
     arrayOf("d", "deposit") to Methods.DEPOSIT,
+    arrayOf("m", "move") to Methods.MOVE_MONEY,
+    arrayOf("p", "pay") to Methods.PAY,
+
     arrayOf("ai", "account:info") to Methods.ACCOUNT_INFO,
     arrayOf("ra", "rename:account") to Methods.RENAME_ACCOUNT,
     arrayOf("sa", "select:account") to Methods.SELECT_ACCOUNT,
