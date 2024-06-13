@@ -18,10 +18,9 @@ class Context(val db: IDb, private var loggedInUser: User? = null) {
                 changeState(AppState.AdminLoggedIn)
             }
         }
-        updateUser(user)
+        refreshLoggedInUser(user)
     }
-
-    fun updateUser(user: User?) {
+    fun refreshLoggedInUser(user: User?) {
         loggedInUser = user
     }
 
