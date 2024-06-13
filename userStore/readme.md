@@ -29,7 +29,7 @@ Small exercise for a cli tool.
 - [x] User Journey - Deposit/Withdraw money with fractional unit to movements
 - [x] User Journey - Move Money between users
 - [x] Allow users to have many different bank accounts
-- [ ] move money between accounts
+- [x] move money between accounts
 - [x] Allow different currency money e change
 - [ ] Simulate Currency Exchange fluctuation
 - [ ] Record Transaction history
