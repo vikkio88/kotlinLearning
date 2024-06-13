@@ -1,6 +1,6 @@
 # User Store Bank
 
-Small e ercise for a cli tool.
+Small exercise for a cli tool.
 
 - [x] User class
 - [x] Money class
@@ -27,7 +27,7 @@ Small e ercise for a cli tool.
       - [x] Reset Password
     - [x] Create new account for users
 - [x] User Journey - Deposit/Withdraw money with fractional unit to movements
-- [ ] User Journey - Move Money between users
+- [x] User Journey - Move Money between users
 - [x] Allow users to have many different bank accounts
 - [ ] move money between accounts
 - [x] Allow different currency money e change
