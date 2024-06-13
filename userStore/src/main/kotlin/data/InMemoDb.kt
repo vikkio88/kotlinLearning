@@ -207,7 +207,9 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
 
     override fun updateUser(user: User): Boolean {
         users[user.id] = user
-
+        for (a in user.accounts){
+            accounts[a.id] = user.id
+        }
         return true
     }
 }
