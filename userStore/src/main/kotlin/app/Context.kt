@@ -22,6 +22,9 @@ class Context(val db: IDb, private var loggedInUser: User? = null) {
     }
     fun refreshLoggedInUser(user: User?) {
         loggedInUser = user
+        if (loggedInUser != null) {
+            db.updateUser(loggedInUser!!)
+        }
     }
 
     fun changeState(newState: AppState) {
@@ -31,12 +34,6 @@ class Context(val db: IDb, private var loggedInUser: User? = null) {
     fun getLoggedInUser(): User? {
         return loggedInUser
 
-    }
-
-    fun persistChanges() {
-        if (loggedInUser != null) {
-            db.updateUser(loggedInUser!!)
-        }
     }
 
 }

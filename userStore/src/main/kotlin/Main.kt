@@ -7,7 +7,6 @@ import org.vikkio.app.App
 fun main() {
     val env = dotenv()
     val appSecret = env["APP_SECRET"] ?: "secret"
-    println(appSecret)
     val app = App(appSecret)
     app.run()
 }

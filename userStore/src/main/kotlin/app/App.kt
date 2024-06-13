@@ -46,8 +46,6 @@ class App(aesSecret: String, private val cleanup: (Context) -> Unit = defaultCle
             }
         }
 
-
-
         println("Exiting.")
         cleanup(context)
     }

@@ -34,7 +34,7 @@ val deposit = fun(ctx: Context) {
     }
 
     if (selectedAccount == null) {
-        println("No wallet.")
+        println("No account selected.")
         return
     }
 
@@ -54,7 +54,12 @@ val withdraw = fun(ctx: Context) {
         println("Current balance $selectedAccount")
     }
 
-    if (selectedAccount == null || selectedAccount.balance.value <= 0) {
+    if (selectedAccount == null) {
+        println("No account selected.")
+        return
+    }
+
+    if (selectedAccount.balance.value <= 0) {
         println("Not enough funds to withdraw")
         return
     }
@@ -78,7 +83,7 @@ val renameAccount = fun(ctx: Context) {
 
     val newName = input("Add new account name: ")
     selectedAccount.name = newName
-    ctx.persistChanges()
+    ctx.refreshLoggedInUser(ctx.getLoggedInUser())
 }
 
 val selectAccount = fun(ctx: Context) {
@@ -99,7 +104,7 @@ val createNewAccount = fun(ctx: Context) {
     val user = ctx.getLoggedInUser()
     val newAccount = createAccount(specifyName = true)
     user!!.addAccount(newAccount)
-    ctx.persistChanges()
+    ctx.refreshLoggedInUser(user)
     println("New account created")
 }
 
@@ -139,6 +144,27 @@ val moveFundsBetweenAccounts = fun(ctx: Context) {
         println("No accounts to move your funds to.")
         return
     }
+    val selectedAccount = user.selectedAccount
+    if (selectedAccount == null) {
+        println("No account selected.")
+        return
+    }
+
+    val amount = inputNumber("Amount to transfer (${selectedAccount.balance.currency}): ")
+    println("Select account to move funds to:")
+    val (_, account) = getFromList(user.accounts.filter { it.id != selectedAccount.id })
+    if (account == null) {
+        println("No account selected.")
+        return
+    }
+    if (ctx.db.transferFunds(selectedAccount.id, account.id, Money(amount, selectedAccount.currency))) {
+        ctx.refreshLoggedInUser(ctx.db.getUserById(user.id))
+        println("Money moved successfully.")
+        return
+    }
+
+    println("Could not move the funds.")
+
 }
 
 val pay = fun(ctx: Context) {
