@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.vikkio.models.enums.Currency
 import org.vikkio.models.Money
 import java.lang.UnsupportedOperationException
@@ -27,7 +28,7 @@ class MoneyTest {
     @Test
     fun testOperations() {
         assertEquals("25.55$", "${Money(1055, Currency.US_DOLLAR) + Money(1500, Currency.US_DOLLAR)}")
-        assertThrows<UnsupportedOperationException> { Money(100, Currency.EURO) + Money(7000, Currency.GB_POUND) }
+        assertDoesNotThrow { Money(100, Currency.EURO) + Money(7000, Currency.GB_POUND) }
 
         val oneEuro = Money(100, Currency.EURO)
         val twoEuros = Money(200, Currency.EURO)
@@ -36,7 +37,7 @@ class MoneyTest {
         assertEquals(oneEuro, otherOneEuro)
         assertEquals(twoEuros - oneEuro, oneEuro)
         assertThrows<UnsupportedOperationException> { oneEuro - twoEuros }
-        assertThrows<UnsupportedOperationException> { Money(60000, Currency.US_DOLLAR) - oneEuro }
+        assertDoesNotThrow { Money(60000, Currency.US_DOLLAR) - oneEuro }
 
         assertEquals("-1.00€", (otherOneEuro * -1).toString())
     }

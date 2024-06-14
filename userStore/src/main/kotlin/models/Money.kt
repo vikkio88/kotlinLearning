@@ -14,23 +14,25 @@ data class Money(val value: Int, val currency: Currency) {
     }
 
     operator fun plus(other: Money): Money {
+        var otherAmount = other
         if (other.currency != this.currency) {
-            throw UnsupportedOperationException("Currencies not compatible")
+            otherAmount = other.convert(currency)
         }
 
-        return Money(this.value + other.value, this.currency)
+        return Money(this.value + otherAmount.value, this.currency)
     }
 
     operator fun minus(other: Money): Money {
+        var otherAmount = other
         if (other.currency != this.currency) {
-            throw UnsupportedOperationException("Currencies not compatible")
+            otherAmount = other.convert(currency)
         }
 
-        if (other.value > this.value) {
+        if (otherAmount.value > this.value) {
             throw UnsupportedOperationException("Cannot subtract more than the value")
         }
 
-        return Money(this.value - other.value, this.currency)
+        return Money(this.value - otherAmount.value, this.currency)
     }
 
     operator fun times(i: Int): Money {
