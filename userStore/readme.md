@@ -31,5 +31,4 @@ Small exercise for a cli tool.
 - [x] Allow users to have many different bank accounts
 - [x] move money between accounts
 - [x] Allow different currency money e change
-- [ ] Simulate Currency Exchange fluctuation
 - [ ] Record Transaction history

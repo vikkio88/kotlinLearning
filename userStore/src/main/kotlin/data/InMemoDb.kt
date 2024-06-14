@@ -4,6 +4,7 @@ import org.vikkio.libs.Crypto
 import org.vikkio.libs.JSON
 import org.vikkio.models.*
 import org.vikkio.models.enums.Currency
+import org.vikkio.org.vikkio.models.Transaction
 import java.io.File
 
 const val DB_FILENAME = "test.db.json"
@@ -211,5 +212,9 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
             accounts[a.id] = user.id
         }
         return true
+    }
+
+    override fun getTransactions(): Iterable<Transaction> {
+        TODO("Not yet implemented")
     }
 }
