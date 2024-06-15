@@ -25,5 +25,7 @@ interface IDb {
     fun updateUser(user: User): Boolean
 
     //TODO: transactions history
-    fun getTransactions():Iterable<Transaction>
+    fun storeTransaction(transaction: Transaction)
+    fun getTransactions(): Iterable<Transaction>
+
 }

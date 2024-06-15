@@ -31,4 +31,4 @@ Small exercise for a cli tool.
 - [x] Allow users to have many different bank accounts
 - [x] move money between accounts
 - [x] Allow different currency money e change
-- [ ] Record Transaction history
+- [x] Record Transaction history

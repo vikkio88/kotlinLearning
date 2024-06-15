@@ -5,24 +5,32 @@ import org.vikkio.libs.JSON
 import org.vikkio.models.*
 import org.vikkio.models.enums.Currency
 import org.vikkio.org.vikkio.models.Transaction
+import org.vikkio.org.vikkio.models.TransactionFactory
 import java.io.File
 
 const val DB_FILENAME = "test.db.json"
 const val DB_PWD_FILENAME = "test.pwd.db.json"
+const val DB_TRANSACTIONS_FILENAME = "test.trn.db.json"
 
 class InMemoDb(private val crypto: Crypto? = null) : IDb {
+    // In Memo dbs
     private var users = mutableMapOf<String, User>()
-    private val usernames = mutableMapOf<String, String>()
     private val passwords = mutableMapOf<String, String>()
+    private var transactions = mutableListOf<Transaction>()
+
+    // Run time indexes
+    private val usernames = mutableMapOf<String, String>()
     private val accounts = mutableMapOf<String, String>()
 
 
     override fun boot() {
         if (File(DB_FILENAME).exists()) {
             users = JSON.parse(File(DB_FILENAME).readText()) ?: mutableMapOf()
-            val persistedPasswords = loadPassword()
+            val persistedPasswords = getStoredPasswords()
             passwords.clear()
             usernames.clear()
+            loadTransactions()
+
             for ((id, u) in users) {
                 usernames[u.username] = id
                 passwords[id] = persistedPasswords?.getOrDefault(id, "password") ?: "password"
@@ -32,7 +40,7 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
             return
         }
 
-        // Defaults
+        // By default, creates a new set of test users
         defaultUsers()
     }
 
@@ -42,7 +50,15 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
         }
     }
 
-    private fun loadPassword(): MutableMap<String, String>? {
+    private fun loadTransactions() {
+        if (!File(DB_TRANSACTIONS_FILENAME).exists()) {
+            return
+        }
+
+        transactions = JSON.parse(File(DB_TRANSACTIONS_FILENAME).readText())
+    }
+
+    private fun getStoredPasswords(): MutableMap<String, String>? {
         if (!File(DB_PWD_FILENAME).exists()) {
             return null
         }
@@ -91,6 +107,7 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
 
         File(DB_FILENAME).writeText(JSON.stringify(users))
         File(DB_PWD_FILENAME).writeText(JSON.stringify(encryptedPasswords))
+        File(DB_TRANSACTIONS_FILENAME).writeText(JSON.stringify(transactions))
     }
 
     override fun addUser(user: User): Boolean {
@@ -176,8 +193,10 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
 
         updateUserAccounts(newFrom, users[fromUserId]!!)
         updateUserAccounts(newTo, users[toUserId]!!)
-        
+
         users[fromUserId]?.selectedAccount = newFrom
+
+        storeTransaction(TransactionFactory.make(fromId, toId, amount))
 
         return true
     }
@@ -208,13 +227,17 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
 
     override fun updateUser(user: User): Boolean {
         users[user.id] = user
-        for (a in user.accounts){
+        for (a in user.accounts) {
             accounts[a.id] = user.id
         }
         return true
     }
 
+    override fun storeTransaction(transaction: Transaction) {
+        transactions.add(transaction)
+    }
+
     override fun getTransactions(): Iterable<Transaction> {
-        TODO("Not yet implemented")
+        return transactions
     }
 }

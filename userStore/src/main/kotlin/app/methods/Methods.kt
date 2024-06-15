@@ -11,6 +11,7 @@ enum class Methods(val label: String, val body: ((Context) -> Unit)? = null) {
     LIST_USERS("List all users", listUsers),
     ADMIN_CHANGE_PASSWORD("Reset User Password", adminChangePassword),
     DELETE_USER("Delete User", deleteUser),
+    LIST_TRANSACTIONS("List Transactions", listTransaction),
 
     // Users
     CHANGE_PASSWORD("Change Password", changePassword),

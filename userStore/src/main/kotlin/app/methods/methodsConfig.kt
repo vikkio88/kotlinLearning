@@ -8,6 +8,7 @@ val adminMenuMethodMap = mapOf(
     arrayOf("rp") to Methods.ADMIN_CHANGE_PASSWORD,
     arrayOf("du") to Methods.DELETE_USER,
     arrayOf("cp", "change:password") to Methods.CHANGE_PASSWORD,
+    arrayOf("t") to Methods.LIST_TRANSACTIONS,
     arrayOf("lo", "logout") to Methods.LOGOUT,
     arrayOf("q", "quit", "exit") to Methods.QUIT,
 )

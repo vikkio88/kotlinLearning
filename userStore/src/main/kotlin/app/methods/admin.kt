@@ -72,3 +72,10 @@ val adminChangePassword = fun(ctx: Context) {
     val res = ctx.db.resetUserPassword(user.id, password ?: "PASSWORD")
     println(if (res) "Password changed correctly." else "Failed to change Password.")
 }
+
+val listTransaction = fun(ctx: Context) {
+    println("Listing all transactions:")
+    for (trn in ctx.db.getTransactions()) {
+        println(trn)
+    }
+}
