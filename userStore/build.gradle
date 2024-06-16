@@ -7,6 +7,7 @@ group = 'org.vikkio'
 version = '1.0'
 
 repositories {
+    google()
     mavenCentral()
 }
 
@@ -14,6 +15,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
     implementation 'com.github.f4b6a3:ulid-creator:5.2.3'
     implementation 'io.github.cdimascio:dotenv-kotlin:6.4.1'
+    implementation 'org.xerial:sqlite-jdbc:3.30.1'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
