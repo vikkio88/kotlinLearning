@@ -1,35 +1,45 @@
 package org.vikkio
 
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.vikkio.models.User
+import org.vikkio.models.enums.UserType
 import java.sql.DriverManager
 import java.sql.ResultSet
 
+object Users : IntIdTable() {
+    val fullName = varchar("fullName", 50)
+    val role = enumeration<UserType>("role")
+    val username = varchar("username", 50)
+}
 
 fun main() {
 //    val env = dotenv()
 //    val appSecret = env["APP_SECRET"] ?: "secret"
 //    val app = App(appSecret)
 //    app.run()
-    val connection = DriverManager.getConnection("jdbc:sqlite:test.db")
+    Database.connect("jdbc:sqlite:test.db", driver = "org.sqlite.JDBC")
+    transaction {
+
+//        addLogger(StdOutSqlLogger)
+
+        SchemaUtils.create(Users)
 
 
-    val stm = connection.prepareStatement(
-        """
-            CREATE TABLE IF NOT EXISTS users (  
-                id VARCHAR(255) PRIMARY KEY,
-                fullname VARCHAR(255) NOT NULL,
-                role TEXT NOT NULL CHECK(role IN ('USER', 'ADMIN')),
-                username VARCHAR(255) UNIQUE NOT NULL
-            );
-        """.trimIndent()
-    )
-    stm.execute()
-    stm.close()
+        Users.insert {
+            it[fullName] = "Mario Giacomelli"
+            it[role] = UserType.USER
+            it[username] = "mario.giacomelli"
+        }
 
-    val statement = connection.createStatement()
-    val rs: ResultSet = statement.executeQuery("select * from users")
-    while (rs.next()) {
-        println("name = " + rs.getString("name"))
-        println("id = " + rs.getInt("id"))
+        val users = Users.selectAll()
+
+        for (u in users) {
+            println("${u[Users.id]} - ${u[Users.username]}")
+        }
     }
 
 }
