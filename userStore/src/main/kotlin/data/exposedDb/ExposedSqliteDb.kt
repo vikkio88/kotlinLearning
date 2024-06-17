@@ -113,7 +113,7 @@ class ExposedSqliteDb(private val crypto: Crypto?) : IDb {
         return transaction {
             val userDao = UserDao.findById(userId) ?: return@transaction false
 
-            PasswordDao.new(userDao, password = newPassword)
+            PasswordDao.new(userDao, password = crypto?.encrypt(newPassword) ?: newPassword)
 
             true
         }

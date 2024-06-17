@@ -3,7 +3,6 @@ package org.vikkio.models
 import com.github.f4b6a3.ulid.UlidCreator
 import kotlinx.serialization.*
 import org.vikkio.models.enums.UserType
-import javax.persistence.Id
 
 @Serializable
 data class User(
@@ -11,7 +10,6 @@ data class User(
     //This has to be MutableList instead of IFace as MutableCollection is not Serializable
     val accounts: MutableList<Account> = mutableListOf(),
     val role: UserType = UserType.USER,
-    @Id
     val id: String = "",
     val username: String = ""
 ) {

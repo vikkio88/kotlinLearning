@@ -2,6 +2,7 @@ package org.vikkio
 
 import io.github.cdimascio.dotenv.dotenv
 import org.vikkio.app.App
+import org.vikkio.data.jdbcsqlite.JdbcSqliteDb
 
 import org.vikkio.models.UserFactory
 
@@ -13,15 +14,15 @@ fun main() {
 //    app.run()
 
 
-
-//    val db = NormDb()
-//    db.boot()
+    val db = JdbcSqliteDb()
+    val us = db.getUsers()
+    for (u in us) {
+        println(u)
+    }
 
 
 //    val l = UserFactory.makeUser("Facci Di Minchia")
 //    db.addUser(l)
-
-
 
 
 }
