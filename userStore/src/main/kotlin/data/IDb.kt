@@ -13,7 +13,7 @@ interface IDb {
     fun deleteUser(userId: String): Boolean
     fun getUsers(): Iterable<User>
     fun getUserById(id: String): User?
-    fun tryUpdateUserAccount(userId: String, amount: Money): Boolean
+    fun tryUpdateUserAccount(userId: String, amount: Money, accountId: String? = null): Boolean
     fun tryUpdateAccountById(accountId: String, amount: Money): Account?
 
     fun getAccountById(accountId: String): Pair<Account?, String?>

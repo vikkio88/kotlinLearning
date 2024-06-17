@@ -42,7 +42,7 @@ val deposit = fun(ctx: Context) {
     val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
-    val res = ctx.db.tryUpdateUserAccount(userId, withAmount)
+    val res = ctx.db.tryUpdateUserAccount(userId, withAmount, selectedAccount.id)
     if (res) println("Deposited successfully.") else println("Deposit failed.")
     ctx.refreshLoggedInUser(ctx.db.getUserById(userId))
 }
@@ -68,7 +68,7 @@ val withdraw = fun(ctx: Context) {
     val withAmount = Money(amount, selectedAccount.currency)
     println("Amount: $withAmount")
     val userId = ctx.getLoggedInUser()!!.id
-    val res = ctx.db.tryUpdateUserAccount(userId, withAmount * -1)
+    val res = ctx.db.tryUpdateUserAccount(userId, withAmount * -1, selectedAccount.id)
     if (res) println("Withdrawn successfully.") else println("Withdrawal failed.")
     ctx.refreshLoggedInUser(ctx.db.getUserById(userId))
 }

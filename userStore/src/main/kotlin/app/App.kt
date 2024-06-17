@@ -5,7 +5,7 @@ import org.vikkio.cli.banner
 import org.vikkio.cli.cls
 import org.vikkio.cli.enterToContinue
 import org.vikkio.cli.input
-import org.vikkio.data.InMemoDb
+import org.vikkio.data.exposedDb.ExposedSqliteDb
 import org.vikkio.libs.Crypto
 import sun.misc.Signal
 import kotlin.system.exitProcess
@@ -16,7 +16,7 @@ val defaultCleanup = { ctx: Context ->
 }
 
 class App(aesSecret: String, private val cleanup: (Context) -> Unit = defaultCleanup) {
-    private var context: Context = Context(InMemoDb(Crypto(aesSecret)))
+    private var context: Context = Context(ExposedSqliteDb(Crypto(aesSecret)))
 
     fun run() {
         boot()

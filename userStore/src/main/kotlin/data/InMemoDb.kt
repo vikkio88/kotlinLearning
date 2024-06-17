@@ -139,7 +139,7 @@ class InMemoDb(private val crypto: Crypto? = null) : IDb {
         return users[id]
     }
 
-    override fun tryUpdateUserAccount(userId: String, amount: Money): Boolean {
+    override fun tryUpdateUserAccount(userId: String, amount: Money, accountId: String?): Boolean {
         val user = getUserById(userId) ?: return false
 
         try {
