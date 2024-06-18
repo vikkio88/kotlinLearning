@@ -1,13 +1,11 @@
-package org.vikkio.data.jdbcsqlite
+package org.vikkio.data.jdbcSqliteDb
 
-import org.vikkio.data.JdbcSqliteDb.UserDao
 import org.vikkio.models.User
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.PreparedStatement
-import java.sql.Statement
 
 class JdbcSqliteDb(private val connection: Connection = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+    val users = UserDao(connection)
     fun boot() {
 
     }
@@ -16,14 +14,16 @@ class JdbcSqliteDb(private val connection: Connection = DriverManager.getConnect
         connection.close()
     }
 
-    fun getUsers(): Iterable<User> {
-        val u = UserDao(connection)
+    fun getUserById(id: String): User? {
+        return users.findOne(id)
+    }
 
-        return u.all()
+    fun getUsers(): Iterable<User> {
+        return users.all()
     }
 
     fun addUser(user: User): Boolean {
-        return false
+        return users.create(user)
 //        val stm = pstm("insert into Users(id, fullName, username, role) values(?, ?, ?, ?)")
 //        stm.setString(1, user.id)
 //        stm.setString(2, user.fullName)
